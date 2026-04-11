@@ -472,7 +472,100 @@ function rcColor(t) {
   return r >= 0.95 ? 'linear-gradient(90deg,#10B981,#059669)' : r >= 0.80 ? 'linear-gradient(90deg,#F59E0B,#D97706)' : 'linear-gradient(90deg,#EF4444,#DC2626)';
 }
 
-function fetchPrices() {
+function fetchGlobal() {
+  return fetch('https://api.coingecko.com/api/v3/global')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var d = data.data;
+      // BTC Dominance
+      var dom = d.market_cap_percentage.btc;
+      var domEl = document.getElementById('btcDom');
+      var domDescEl = document.getElementById('btcDomDesc');
+      if (domEl) {
+        domEl.textContent = dom.toFixed(1) + '%';
+        if (dom > 58) {
+          domEl.style.color = '#D97706';
+          domDescEl.textContent = 'Alta dominancia BTC. Alt season aun pendiente, paciencia.';
+        } else if (dom > 52) {
+          domEl.style.color = '#059669';
+          domDescEl.textContent = 'Dominancia bajando. Rotacion hacia alts iniciandose.';
+        } else {
+          domEl.style.color = '#4338CA';
+          domDescEl.textContent = 'Dominancia baja. Alt season en curso, momento de alts.';
+        }
+      }
+      // ETH/BTC
+      var ethDom = d.market_cap_percentage.eth;
+      var ethBtcEl = document.getElementById('ethBtcRatio');
+      var ethBtcDescEl = document.getElementById('ethBtcDesc');
+      var eth = null, btc = null;
+      PORTFOLIO.forEach(function(t) { if (t.sym === 'ETH') eth = t; if (t.sym === 'BTC') btc = t; });
+      if (eth && btc && btc.price > 0 && ethBtcEl) {
+        var ratio = eth.price / btc.price;
+        ethBtcEl.textContent = ratio.toFixed(4);
+        if (ratio < 0.035) {
+          ethBtcEl.style.color = '#DC2626';
+          ethBtcDescEl.textContent = 'ETH en minimos historicos vs BTC. Rotacion inminente.';
+        } else if (ratio < 0.05) {
+          ethBtcEl.style.color = '#D97706';
+          ethBtcDescEl.textContent = 'ETH debil vs BTC. Posible recuperacion proxima.';
+        } else {
+          ethBtcEl.style.color = '#059669';
+          ethBtcDescEl.textContent = 'ETH fuerte vs BTC. Alt season activa.';
+        }
+      }
+      // Total Market Cap
+      var totalMcap = d.total_market_cap.usd;
+      var totalMcapEl = document.getElementById('sigTotalMcap');
+      var totalMcapDescEl = document.getElementById('sigTotalMcapDesc');
+      if (totalMcapEl) {
+        var t = totalMcap / 1e12;
+        totalMcapEl.textContent = '$' + t.toFixed(2) + 'T';
+        var chg = d.market_cap_change_percentage_24h_usd || 0;
+        totalMcapEl.style.color = chg >= 0 ? '#059669' : '#DC2626';
+        totalMcapDescEl.textContent = 'Market cap total. Cambio 24h: ' + (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+      }
+      // Total Alts (Total - BTC - ETH aprox = TOTAL3)
+      var btcMcap = totalMcap * (dom / 100);
+      var ethMcap = totalMcap * (ethDom / 100);
+      var total3 = totalMcap - btcMcap - ethMcap;
+      var total3El = document.getElementById('sigTotal3');
+      var total3DescEl = document.getElementById('sigTotal3Desc');
+      if (total3El) {
+        var t3B = total3 / 1e9;
+        total3El.textContent = t3B >= 1000 ? '$' + (t3B / 1000).toFixed(2) + 'T' : '$' + Math.round(t3B) + 'B';
+        if (t3B < 600) {
+          total3El.style.color = '#DC2626';
+          total3DescEl.textContent = 'Alts muy deprimidas. Maximo potencial de recuperacion.';
+        } else if (t3B < 900) {
+          total3El.style.color = '#D97706';
+          total3DescEl.textContent = 'Alts en recuperacion. Buen momento para mantener.';
+        } else {
+          total3El.style.color = '#059669';
+          total3DescEl.textContent = 'Alts fuertes. Alt season activa o muy proxima.';
+        }
+      }
+      // M2 — dato estatico actualizado (no hay API publica gratuita en tiempo real)
+      var m2El = document.getElementById('sigM2');
+      var m2DescEl = document.getElementById('sigM2Desc');
+      if (m2El) {
+        m2El.textContent = '$22.67T';
+        m2El.style.color = '#059669';
+        m2DescEl.textContent = 'Liquidez global en maximos historicos. Muy alcista para crypto.';
+      }
+      // DXY — dato estatico (requiere API de pago para tiempo real)
+      var dxyEl = document.getElementById('sigDxy');
+      var dxyDescEl = document.getElementById('sigDxyDesc');
+      if (dxyEl) {
+        dxyEl.textContent = '98.39';
+        dxyEl.style.color = '#059669';
+        dxyDescEl.textContent = 'Dolar debil. Historicamente muy favorable para BTC y alts.';
+      }
+      return true;
+    });
+}
+
+
   var ids = PORTFOLIO.map(function(t) { return t.cgId; }).join(',');
   var url = 'https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true';
   return fetch(url).then(function(r) { return r.json(); }).then(function(data) {
@@ -505,7 +598,7 @@ function fetchAll() {
   btn.classList.add('spinning');
   bar.classList.add('active');
   document.getElementById('errorChip').classList.remove('show');
-  Promise.all([fetchPrices(), fetchFG()]).then(function() {
+  Promise.all([fetchPrices(), fetchFG(), fetchGlobal()]).then(function() {
     btn.classList.remove('spinning');
     bar.classList.remove('active');
     updateAll();
