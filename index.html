@@ -477,90 +477,59 @@ function fetchGlobal() {
     .then(function(r) { return r.json(); })
     .then(function(data) {
       var d = data.data;
+      var totalMcap = parseFloat(d.totalMarketCapUsd) || 0;
+      var btcMcap = parseFloat(d.bitcoinDominancePercent) || 0;
       // BTC Dominance
-      var dom = d.market_cap_percentage.btc;
       var domEl = document.getElementById('btcDom');
       var domDescEl = document.getElementById('btcDomDesc');
-      if (domEl) {
-        domEl.textContent = dom.toFixed(1) + '%';
-        if (dom > 58) {
-          domEl.style.color = '#D97706';
-          domDescEl.textContent = 'Alta dominancia BTC. Alt season aun pendiente, paciencia.';
-        } else if (dom > 52) {
-          domEl.style.color = '#059669';
-          domDescEl.textContent = 'Dominancia bajando. Rotacion hacia alts iniciandose.';
-        } else {
-          domEl.style.color = '#4338CA';
-          domDescEl.textContent = 'Dominancia baja. Alt season en curso, momento de alts.';
-        }
-      }
-      // ETH/BTC
-      var ethDom = d.market_cap_percentage.eth;
-      var ethBtcEl = document.getElementById('ethBtcRatio');
-      var ethBtcDescEl = document.getElementById('ethBtcDesc');
-      var eth = null, btc = null;
-      PORTFOLIO.forEach(function(t) { if (t.sym === 'ETH') eth = t; if (t.sym === 'BTC') btc = t; });
-      if (eth && btc && btc.price > 0 && ethBtcEl) {
-        var ratio = eth.price / btc.price;
-        ethBtcEl.textContent = ratio.toFixed(4);
-        if (ratio < 0.035) {
-          ethBtcEl.style.color = '#DC2626';
-          ethBtcDescEl.textContent = 'ETH en minimos historicos vs BTC. Rotacion inminente.';
-        } else if (ratio < 0.05) {
-          ethBtcEl.style.color = '#D97706';
-          ethBtcDescEl.textContent = 'ETH debil vs BTC. Posible recuperacion proxima.';
-        } else {
-          ethBtcEl.style.color = '#059669';
-          ethBtcDescEl.textContent = 'ETH fuerte vs BTC. Alt season activa.';
-        }
+      if (domEl && btcMcap > 0) {
+        domEl.textContent = btcMcap.toFixed(1) + '%';
+        if (btcMcap > 58) { domEl.style.color='#D97706'; domDescEl.textContent='Alta dominancia BTC. Alt season aun pendiente.'; }
+        else if (btcMcap > 52) { domEl.style.color='#059669'; domDescEl.textContent='Dominancia bajando. Rotacion hacia alts iniciandose.'; }
+        else { domEl.style.color='#4338CA'; domDescEl.textContent='Dominancia baja. Alt season en curso.'; }
       }
       // Total Market Cap
-      var totalMcap = d.total_market_cap.usd;
-      var totalMcapEl = document.getElementById('sigTotalMcap');
-      var totalMcapDescEl = document.getElementById('sigTotalMcapDesc');
-      if (totalMcapEl) {
-        var t = totalMcap / 1e12;
-        totalMcapEl.textContent = '$' + t.toFixed(2) + 'T';
-        var chg = d.market_cap_change_percentage_24h_usd || 0;
-        totalMcapEl.style.color = chg >= 0 ? '#059669' : '#DC2626';
-        totalMcapDescEl.textContent = 'Market cap total. Cambio 24h: ' + (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+      var totalEl = document.getElementById('sigTotalMcap');
+      var totalDescEl = document.getElementById('sigTotalMcapDesc');
+      if (totalEl && totalMcap > 0) {
+        var tT = totalMcap / 1e12;
+        totalEl.textContent = '$' + tT.toFixed(2) + 'T';
+        totalEl.style.color = '#059669';
+        totalDescEl.textContent = 'Market cap total del mercado crypto global.';
       }
-      // Total Alts (Total - BTC - ETH aprox = TOTAL3)
-      var btcMcap = totalMcap * (dom / 100);
-      var ethMcap = totalMcap * (ethDom / 100);
-      var total3 = totalMcap - btcMcap - ethMcap;
+      // Total Alts (approx)
       var total3El = document.getElementById('sigTotal3');
       var total3DescEl = document.getElementById('sigTotal3Desc');
-      if (total3El) {
+      if (total3El && totalMcap > 0) {
+        var ethMcap = 0;
+        var eth = null; PORTFOLIO.forEach(function(t) { if (t.sym==='ETH') eth=t; });
+        var btcT = null; PORTFOLIO.forEach(function(t) { if (t.sym==='BTC') btcT=t; });
+        if (eth && btcT) ethMcap = (eth.price * 120000000);
+        var btcTotalMcap = totalMcap * (btcMcap / 100);
+        var total3 = totalMcap - btcTotalMcap - ethMcap;
         var t3B = total3 / 1e9;
-        total3El.textContent = t3B >= 1000 ? '$' + (t3B / 1000).toFixed(2) + 'T' : '$' + Math.round(t3B) + 'B';
-        if (t3B < 600) {
-          total3El.style.color = '#DC2626';
-          total3DescEl.textContent = 'Alts muy deprimidas. Maximo potencial de recuperacion.';
-        } else if (t3B < 900) {
-          total3El.style.color = '#D97706';
-          total3DescEl.textContent = 'Alts en recuperacion. Buen momento para mantener.';
-        } else {
-          total3El.style.color = '#059669';
-          total3DescEl.textContent = 'Alts fuertes. Alt season activa o muy proxima.';
-        }
+        total3El.textContent = t3B >= 1000 ? '$' + (t3B/1000).toFixed(2) + 'T' : '$' + Math.round(t3B) + 'B';
+        if (t3B < 600) { total3El.style.color='#DC2626'; total3DescEl.textContent='Alts muy deprimidas. Maximo potencial de subida.'; }
+        else if (t3B < 900) { total3El.style.color='#D97706'; total3DescEl.textContent='Alts en recuperacion. Mantener posiciones.'; }
+        else { total3El.style.color='#059669'; total3DescEl.textContent='Alts fuertes. Alt season activa o muy proxima.'; }
       }
-      // M2 — dato estatico actualizado (no hay API publica gratuita en tiempo real)
+      // ETH/BTC
+      var ethBtcEl = document.getElementById('ethBtcRatio');
+      var ethBtcDescEl = document.getElementById('ethBtcDesc');
+      var ethT = null; PORTFOLIO.forEach(function(t) { if (t.sym==='ETH') ethT=t; });
+      var btcP = null; PORTFOLIO.forEach(function(t) { if (t.sym==='BTC') btcP=t; });
+      if (ethT && btcP && btcP.price > 0 && ethBtcEl) {
+        var ratio = ethT.price / btcP.price;
+        ethBtcEl.textContent = ratio.toFixed(4);
+        if (ratio < 0.035) { ethBtcEl.style.color='#DC2626'; ethBtcDescEl.textContent='ETH en minimos vs BTC. Rotacion inminente.'; }
+        else if (ratio < 0.05) { ethBtcEl.style.color='#D97706'; ethBtcDescEl.textContent='ETH debil vs BTC. Posible recuperacion proxima.'; }
+        else { ethBtcEl.style.color='#059669'; ethBtcDescEl.textContent='ETH fuerte vs BTC. Alt season activa.'; }
+      }
+      // M2 y DXY estaticos
       var m2El = document.getElementById('sigM2');
-      var m2DescEl = document.getElementById('sigM2Desc');
-      if (m2El) {
-        m2El.textContent = '$22.67T';
-        m2El.style.color = '#059669';
-        m2DescEl.textContent = 'Liquidez global en maximos historicos. Muy alcista para crypto.';
-      }
-      // DXY — dato estatico (requiere API de pago para tiempo real)
+      if (m2El) { m2El.textContent = '$22.67T'; m2El.style.color='#059669'; document.getElementById('sigM2Desc').textContent='Liquidez global en maximos. Muy alcista para crypto.'; }
       var dxyEl = document.getElementById('sigDxy');
-      var dxyDescEl = document.getElementById('sigDxyDesc');
-      if (dxyEl) {
-        dxyEl.textContent = '98.39';
-        dxyEl.style.color = '#059669';
-        dxyDescEl.textContent = 'Dolar debil. Historicamente muy favorable para BTC y alts.';
-      }
+      if (dxyEl) { dxyEl.textContent = '98.39'; dxyEl.style.color='#059669'; document.getElementById('sigDxyDesc').textContent='Dolar debil. Historicamente favorable para BTC y alts.'; }
       return true;
     });
 }
