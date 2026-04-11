@@ -118,10 +118,10 @@ body { background: #F0F4FF; color: #1E1B4B; font-family: 'Space Mono', monospace
 .token-list { padding:0 16px; display:flex; flex-direction:column; gap:12px; }
 .token-card { border-radius:18px; padding:16px; border:1px solid rgba(0,0,0,.06); box-shadow:0 4px 16px rgba(0,0,0,.08); cursor:pointer; transition:transform .15s, box-shadow .15s; position:relative; overflow:hidden; }
 .token-card:active { transform:scale(.98); box-shadow:0 2px 8px rgba(0,0,0,.08); }
-.token-card::before { content:’’; position:absolute; left:0;top:0;bottom:0; width:5px; border-radius:5px 0 0 5px; }
-.tc-green { background:linear-gradient(135deg,#ECFDF5,#F0FDF4); } .tc-green::before { background:linear-gradient(180deg,#10B981,#059669); }
-.tc-yellow { background:linear-gradient(135deg,#FFFBEB,#FEF9C3); } .tc-yellow::before { background:linear-gradient(180deg,#F59E0B,#D97706); }
-.tc-red { background:linear-gradient(135deg,#FFF1F2,#FFF5F5); } .tc-red::before { background:linear-gradient(180deg,#EF4444,#DC2626); }
+.token-card::before { content:’’; position:absolute; left:0;top:0;bottom:0; width:6px; border-radius:6px 0 0 6px; }
+.tc-green { background:linear-gradient(135deg,#ECFDF5,#F0FDF4); } .tc-green::before { background:linear-gradient(180deg,#10B981,#059669); box-shadow:2px 0 8px rgba(16,185,129,.4); }
+.tc-yellow { background:linear-gradient(135deg,#FFFBEB,#FEF9C3); } .tc-yellow::before { background:linear-gradient(180deg,#F59E0B,#D97706); box-shadow:2px 0 8px rgba(245,158,11,.4); }
+.tc-red { background:linear-gradient(135deg,#FFF1F2,#FFF5F5); } .tc-red::before { background:linear-gradient(180deg,#EF4444,#DC2626); box-shadow:2px 0 8px rgba(239,68,68,.4); }
 .tc-row1 { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
 .tc-sym { font-family:‘Syne’,sans-serif; font-size:17px; font-weight:800; color:#1E1B4B; display:flex; align-items:center; gap:8px; }
 .tc-chg { font-size:9px; font-weight:700; padding:2px 7px; border-radius:6px; }
@@ -441,10 +441,12 @@ var WFCOLORS = [
 ];
 
 function fmt(n, d) {
-  d = d || 2;
-  if (n >= 1000) return '$' + n.toLocaleString('es-ES', {minimumFractionDigits:d, maximumFractionDigits:d});
-  if (n >= 1) return '$' + n.toFixed(d);
-  return '$' + n.toFixed(5);
+  if (n >= 10000) return '$' + n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+  if (n >= 1000) return '$' + n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+  if (n >= 100) return '$' + n.toFixed(3);
+  if (n >= 1) return '$' + n.toFixed(4);
+  if (n >= 0.01) return '$' + n.toFixed(5);
+  return '$' + n.toFixed(6);
 }
 
 function tokenPriceAtBtc(t, btcTarget) {
@@ -751,7 +753,7 @@ function showToast(msg, cls) { var t = document.getElementById('toast'); t.textC
 
 function init() {
   fetchAll();
-  setInterval(fetchAll, 60000);
+  setInterval(fetchAll, 15000);
   setInterval(function() { gemIdx++; renderGem(); }, 90000);
 }
 document.addEventListener('DOMContentLoaded', init);
