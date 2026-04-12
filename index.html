@@ -776,51 +776,59 @@ function renderSignals() {
     }
   }
 
-  // BTC Dominance (calculada con precios reales)
-  if (btc && btc.p > 0) {
-    var btcMcap = btc.p * 19700000;
-    var totalEst = btcMcap / 0.565; // BTC ~56.5% del total actualmente
-    var dom = (btcMcap / totalEst * 100);
-    document.getElementById('SIG-BD').textContent = dom.toFixed(1) + '%';
-    if (dom > 58) {
+  // BTC Dominance — fetch desde Kraken BTC.D proxy
+  // Usamos CoinPaprika que tiene CORS abierto
+  fetch('https://api.coinpaprika.com/v1/global')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var dom = d.bitcoin_dominance_percentage || 0;
+      var totalMcap = d.market_cap_usd || 0;
+      document.getElementById('SIG-BD').textContent = dom.toFixed(1) + '%';
+      if (dom > 58) {
+        document.getElementById('SIG-BD').style.color = '#FF9F0A';
+        document.getElementById('SIG-BD-D').textContent = 'Alta dominancia. Alt season pendiente. Paciencia.';
+        setSig('SC-BDS', 'y');
+      } else if (dom > 52) {
+        document.getElementById('SIG-BD').style.color = '#30D158';
+        document.getElementById('SIG-BD-D').textContent = 'Dominancia bajando. Rotacion hacia alts iniciandose.';
+        setSig('SC-BDS', 'g');
+      } else {
+        document.getElementById('SIG-BD').style.color = '#0A84FF';
+        document.getElementById('SIG-BD-D').textContent = 'Dominancia baja. Alt season en curso.';
+        setSig('SC-BDS', 'g');
+      }
+      // Total Market Cap real
+      var tT = totalMcap / 1e12;
+      // Total Alts = Total - BTC - ETH
+      var btcMcap = totalMcap * (dom / 100);
+      var ethMcap = eth ? eth.p * 120000000 : 0;
+      var t3 = totalMcap - btcMcap - ethMcap;
+      var t3B = t3 / 1e9;
+      document.getElementById('SIG-T3').textContent = t3B >= 1000 ? '$' + (t3B/1000).toFixed(2) + 'T' : '$' + Math.round(t3B) + 'B';
+      if (t3B < 600) {
+        document.getElementById('SIG-T3').style.color = '#FF453A';
+        document.getElementById('SIG-T3-D').textContent = 'Alts muy deprimidas. Maximo potencial de subida.';
+        setSig('SC-T3', 'r');
+      } else if (t3B < 900) {
+        document.getElementById('SIG-T3').style.color = '#FF9F0A';
+        document.getElementById('SIG-T3-D').textContent = 'Alts en recuperacion. Mantener posiciones.';
+        setSig('SC-T3', 'y');
+      } else {
+        document.getElementById('SIG-T3').style.color = '#30D158';
+        document.getElementById('SIG-T3-D').textContent = 'Alts fuertes. Alt season activa o muy proxima.';
+        setSig('SC-T3', 'g');
+      }
+    })
+    .catch(function() {
+      // fallback con calculo propio
+      var btcMcap = btc.p * 19700000;
+      var totalEst = btcMcap / 0.594;
+      var dom = (btcMcap / totalEst * 100);
+      document.getElementById('SIG-BD').textContent = dom.toFixed(1) + '%';
       document.getElementById('SIG-BD').style.color = '#FF9F0A';
-      document.getElementById('SIG-BD-D').textContent = 'Alta dominancia. Alt season pendiente. Paciencia.';
+      document.getElementById('SIG-BD-D').textContent = 'Alta dominancia. Alt season pendiente.';
       setSig('SC-BDS', 'y');
-    } else if (dom > 52) {
-      document.getElementById('SIG-BD').style.color = '#30D158';
-      document.getElementById('SIG-BD-D').textContent = 'Dominancia bajando. Rotacion hacia alts iniciandose.';
-      setSig('SC-BDS', 'g');
-    } else {
-      document.getElementById('SIG-BD').style.color = '#0A84FF';
-      document.getElementById('SIG-BD-D').textContent = 'Dominancia baja. Alt season en curso.';
-      setSig('SC-BDS', 'g');
-    }
-
-    // Total Alts estimado
-    var ethMcap = eth ? eth.p * 120000000 : 0;
-    var t3 = totalEst - btcMcap - ethMcap;
-    var t3B = t3 / 1e9;
-    document.getElementById('SIG-T3').textContent = t3B >= 1000 ? '$' + (t3B/1000).toFixed(2) + 'T' : '$' + Math.round(t3B) + 'B';
-    if (t3B < 600) {
-      document.getElementById('SIG-T3').style.color = '#FF453A';
-      document.getElementById('SIG-T3-D').textContent = 'Alts muy deprimidas. Maximo potencial de subida.';
-      setSig('SC-T3', 'r');
-    } else if (t3B < 900) {
-      document.getElementById('SIG-T3').style.color = '#FF9F0A';
-      document.getElementById('SIG-T3-D').textContent = 'Alts en recuperacion. Mantener posiciones.';
-      setSig('SC-T3', 'y');
-    } else {
-      document.getElementById('SIG-T3').style.color = '#30D158';
-      document.getElementById('SIG-T3-D').textContent = 'Alts fuertes. Alt season activa o muy proxima.';
-      setSig('SC-T3', 'g');
-    }
-
-    // DXY — dato estático (cambia muy lentamente)
-    document.getElementById('SIG-DXY').textContent = '98.39';
-    document.getElementById('SIG-DXY').style.color = '#30D158';
-    document.getElementById('SIG-DXY-D').textContent = 'Dolar debil en minimos. Muy favorable para BTC y alts.';
-    setSig('SC-DXY', 'g');
-  }
+    });
 }
 
 function renderWF() {
