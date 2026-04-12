@@ -262,39 +262,74 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;min-hei
 <div class="view" id="view-signals">
   <div class="slbl">INDICADORES — TIEMPO REAL</div>
   <div class="sgrid2">
-    <div class="sc sig-green" id="scM2"><div class="si">💧</div><div class="sn">M2 Global</div><div class="svl g" id="sM2">$22.67T</div><div class="sd">Liquidez global en maximos. Alcista.</div></div>
-    <div class="sc sig-green" id="scDX"><div class="si">📉</div><div class="sn">DXY</div><div class="svl g" id="sDX">98.39</div><div class="sd">Dolar debil. Correlacion inversa favorable.</div></div>
-    <div class="sc sig-grey" id="scBD"><div class="si">👑</div><div class="sn">BTC Dominance</div><div class="svl a" id="sBD">—</div><div class="sd" id="sBDD">Cargando...</div></div>
-    <div class="sc sig-grey" id="scEB"><div class="si">⚡</div><div class="sn">ETH/BTC</div><div class="svl b" id="sEB">—</div><div class="sd" id="sEBD">Cargando...</div></div>
-    <div class="sc sig-grey" id="scT3"><div class="si">📊</div><div class="sn">Total Alts</div><div class="svl a" id="sT3">—</div><div class="sd" id="sT3D">Cargando...</div></div>
-    <div class="sc sig-grey" id="scTM"><div class="si">🌍</div><div class="sn">Market Cap</div><div class="svl g" id="sTM">—</div><div class="sd" id="sTMD">Cargando...</div></div>
-  </div>
-
-  <!-- TradingView BTC Dominance Mini Chart -->
-
-  <div class="card" style="background:#fff;padding:12px">
-    <div class="chl" style="color:#636366;font-size:9px">📈 BTC.D — GRAFICO EN VIVO</div>
-    <div class="tradingview-widget-container" style="height:160px">
-      <div class="tradingview-widget-container__widget" style="height:160px"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-      {"symbol":"CRYPTOCAP:BTC.D","width":"100%","height":160,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":false,"largeChartUrl":""}
-      </script>
+    <div class="sc sig-green" id="scM2">
+      <div class="sn">💧 M2 GLOBAL</div>
+      <div class="svl g">$22.67T</div>
+      <div class="sd">Liquidez en maximos. Muy alcista.</div>
+    </div>
+    <div class="sc sig-green" id="scDX">
+      <div class="sn">📉 DXY</div>
+      <div style="height:80px;margin:4px -4px">
+        <div class="tradingview-widget-container" style="height:80px">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"TVC:DXY","width":"100%","height":80,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true,"largeChartUrl":""}</script>
+        </div>
+      </div>
+      <div class="sd" id="sDXD">Dolar debil. Correlacion inversa favorable.</div>
+    </div>
+    <div class="sc sig-yellow" id="scBD">
+      <div class="sn">👑 BTC DOMINANCE</div>
+      <div style="height:80px;margin:4px -4px">
+        <div class="tradingview-widget-container" style="height:80px">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:BTC.D","width":"100%","height":80,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true,"largeChartUrl":""}</script>
+        </div>
+      </div>
+      <div class="sd">Alta dom. Alt season pendiente.</div>
+    </div>
+    <div class="sc sig-red" id="scEB">
+      <div class="sn">⚡ ETH/BTC</div>
+      <div style="height:80px;margin:4px -4px">
+        <div class="tradingview-widget-container" style="height:80px">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"COINBASE:ETHBTC","width":"100%","height":80,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true,"largeChartUrl":""}</script>
+        </div>
+      </div>
+      <div class="sd">ETH en minimos vs BTC. Rotacion inminente.</div>
+    </div>
+    <div class="sc sig-red" id="scT3">
+      <div class="sn">📊 TOTAL ALTS</div>
+      <div style="height:80px;margin:4px -4px">
+        <div class="tradingview-widget-container" style="height:80px">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:TOTAL3","width":"100%","height":80,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true,"largeChartUrl":""}</script>
+        </div>
+      </div>
+      <div class="sd">Alts deprimidas. Maximo potencial.</div>
+    </div>
+    <div class="sc sig-green" id="scTM">
+      <div class="sn">🌍 MARKET CAP TOTAL</div>
+      <div style="height:80px;margin:4px -4px">
+        <div class="tradingview-widget-container" style="height:80px">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:TOTAL","width":"100%","height":80,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true,"largeChartUrl":""}</script>
+        </div>
+      </div>
+      <div class="sd">Market cap crypto global.</div>
     </div>
   </div>
 
-  <!-- TradingView Market Overview -->
+  <!-- TradingView Heatmap -->
 
-  <div class="card" style="background:#fff;padding:12px">
-    <div class="chl" style="color:#636366;font-size:9px">🗺️ MAPA DEL MERCADO CRYPTO</div>
-    <div class="tradingview-widget-container" style="height:200px">
-      <div class="tradingview-widget-container__widget" style="height:200px"></div>
+  <div class="card" style="background:#fff;padding:12px;margin-bottom:14px">
+    <div class="chl" style="color:#636366;font-size:9px">🗺️ MAPA DEL MERCADO — EN VIVO</div>
+    <div class="tradingview-widget-container" style="height:220px">
+      <div class="tradingview-widget-container__widget" style="height:220px"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>
-      {"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"change","locale":"es","symbolUrl":"","colorTheme":"light","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":false,"hasSymbolTooltip":false,"width":"100%","height":200}
+      {"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"change","locale":"es","symbolUrl":"","colorTheme":"light","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":false,"hasSymbolTooltip":true,"width":"100%","height":220}
       </script>
     </div>
   </div>
-
-  <div class="slbl">FEAR AND GREED — TIEMPO REAL</div>
   <div class="card cl">
     <div class="chl" id="FGT" style="color:#D97706">😐 Indice Miedo y Codicia</div>
     <div class="fgwrap">
