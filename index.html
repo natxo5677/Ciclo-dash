@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#F0F4FF;color:#1E1B4B;font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top)}
+body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top)}
 .app{max-width:430px;margin:0 auto;padding-bottom:95px}
 .header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#C7D2FE,#DDD6FE);border-bottom:1px solid rgba(99,102,241,.15);padding:14px 18px 12px}
 .header-top{display:flex;justify-content:space-between;align-items:center}
@@ -254,12 +254,12 @@ body{background:#F0F4FF;color:#1E1B4B;font-family:'Space Mono',monospace;min-hei
 <div class="view" id="view-signals">
   <div class="slbl">INDICADORES — TIEMPO REAL</div>
   <div class="sgrid2">
-    <div class="sc cm"><div class="si">💧</div><div class="sn">M2 Global</div><div class="svl g" id="sM2">$22.67T</div><div class="sd">Liquidez global en maximos. Alcista.</div></div>
-    <div class="sc cs"><div class="si">📉</div><div class="sn">DXY</div><div class="svl g" id="sDX">98.39</div><div class="sd">Dolar debil. Correlacion inversa favorable.</div></div>
-    <div class="sc cl"><div class="si">👑</div><div class="sn">BTC Dominance</div><div class="svl a" id="sBD">—</div><div class="sd" id="sBDD">Cargando...</div></div>
-    <div class="sc ci"><div class="si">⚡</div><div class="sn">ETH/BTC</div><div class="svl b" id="sEB">—</div><div class="sd" id="sEBD">Cargando...</div></div>
-    <div class="sc cp"><div class="si">📊</div><div class="sn">Total Alts</div><div class="svl a" id="sT3">—</div><div class="sd" id="sT3D">Cargando...</div></div>
-    <div class="sc cr"><div class="si">🌍</div><div class="sn">Market Cap</div><div class="svl g" id="sTM">—</div><div class="sd" id="sTMD">Cargando...</div></div>
+    <div class="sc sig-green" id="scM2"><div class="si">💧</div><div class="sn">M2 Global</div><div class="svl g" id="sM2">$22.67T</div><div class="sd">Liquidez global en maximos. Alcista.</div></div>
+    <div class="sc sig-green" id="scDX"><div class="si">📉</div><div class="sn">DXY</div><div class="svl g" id="sDX">98.39</div><div class="sd">Dolar debil. Correlacion inversa favorable.</div></div>
+    <div class="sc sig-grey" id="scBD"><div class="si">👑</div><div class="sn">BTC Dominance</div><div class="svl a" id="sBD">—</div><div class="sd" id="sBDD">Cargando...</div></div>
+    <div class="sc sig-grey" id="scEB"><div class="si">⚡</div><div class="sn">ETH/BTC</div><div class="svl b" id="sEB">—</div><div class="sd" id="sEBD">Cargando...</div></div>
+    <div class="sc sig-grey" id="scT3"><div class="si">📊</div><div class="sn">Total Alts</div><div class="svl a" id="sT3">—</div><div class="sd" id="sT3D">Cargando...</div></div>
+    <div class="sc sig-grey" id="scTM"><div class="si">🌍</div><div class="sn">Market Cap</div><div class="svl g" id="sTM">—</div><div class="sd" id="sTMD">Cargando...</div></div>
   </div>
   <div class="slbl">FEAR AND GREED — TIEMPO REAL</div>
   <div class="card cl">
@@ -356,7 +356,7 @@ function fetchAll(){
   var rb=document.getElementById('rb'),lb=document.getElementById('LB');
   rb.classList.add('spin');lb.classList.add('on');
   document.getElementById('EC').classList.remove('show');
-  Promise.all([fetchPrices(),fetchFG()]).then(function(){
+  Promise.all([fetchPrices(),fetchFG(),fetchGlobal()]).then(function(){
     rb.classList.remove('spin');lb.classList.remove('on');
     updateAll();showToast('Precios actualizados ✓','tg');
   }).catch(function(){
@@ -418,7 +418,34 @@ function rendFG(){
   document.getElementById('FGD').textContent=desc;
   document.getElementById('FGT').textContent=em+' Indice Miedo y Codicia';document.getElementById('FGT').style.color=col;
 }
-function updSignals(){
+function setSigColor(id,color){var el=document.getElementById(id);if(!el)return;el.className='sc '+(color==='green'?'sig-green':color==='yellow'?'sig-yellow':color==='red'?'sig-red':'sig-grey');}
+function fetchGlobal(){
+  return fetch('https://api.coingecko.com/api/v3/global').then(function(r){return r.json();}).then(function(data){
+    var d=data.data;
+    var dom=d.market_cap_percentage.btc||0;
+    var ethDom=d.market_cap_percentage.eth||0;
+    var totalMcap=d.total_market_cap.usd||0;
+    var chg=d.market_cap_change_percentage_24h_usd||0;
+    // BTC Dominance
+    document.getElementById('sBD').textContent=dom.toFixed(1)+'%';
+    if(dom>58){document.getElementById('sBD').style.color='#FF9F0A';document.getElementById('sBDD').textContent='Alta dominancia. Alt season pendiente, paciencia.';setSigColor('scBD','yellow');}
+    else if(dom>52){document.getElementById('sBD').style.color='#32D74B';document.getElementById('sBDD').textContent='Dominancia bajando. Rotacion hacia alts iniciandose.';setSigColor('scBD','green');}
+    else{document.getElementById('sBD').style.color='#0A84FF';document.getElementById('sBDD').textContent='Dominancia baja. Alt season en curso.';setSigColor('scBD','green');}
+    // Total Market Cap
+    var tT=totalMcap/1e12;
+    document.getElementById('sTM').textContent='$'+tT.toFixed(2)+'T';
+    document.getElementById('sTM').style.color=chg>=0?'#32D74B':'#FF453A';
+    document.getElementById('sTMD').textContent='Cambio 24h: '+(chg>=0?'+':'')+chg.toFixed(2)+'%';
+    setSigColor('scTM',chg>=0?'green':'red');
+    // Total Alts
+    var btcMcap=totalMcap*(dom/100),ethMcap=totalMcap*(ethDom/100),t3=totalMcap-btcMcap-ethMcap,t3B=t3/1e9;
+    document.getElementById('sT3').textContent=t3B>=1000?'$'+(t3B/1000).toFixed(2)+'T':'$'+Math.round(t3B)+'B';
+    if(t3B<600){document.getElementById('sT3').style.color='#FF453A';document.getElementById('sT3D').textContent='Alts muy deprimidas. Maximo potencial de subida.';setSigColor('scT3','red');}
+    else if(t3B<900){document.getElementById('sT3').style.color='#FF9F0A';document.getElementById('sT3D').textContent='Alts en recuperacion. Mantener posiciones.';setSigColor('scT3','yellow');}
+    else{document.getElementById('sT3').style.color='#32D74B';document.getElementById('sT3D').textContent='Alts fuertes. Alt season activa.';setSigColor('scT3','green');}
+    return true;
+  }).catch(function(){return true;});
+}
   var eth=null,btc=null;PF.forEach(function(t){if(t.sym==='ETH')eth=t;if(t.sym==='BTC')btc=t;});
   if(eth&&btc&&btc.p>0){
     var r=eth.p/btc.p;document.getElementById('sEB').textContent=r.toFixed(4);
