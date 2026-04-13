@@ -358,108 +358,149 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;overflo
 <!-- VIEW: SIGNALS -->
 
 <div class="view" id="view-signals">
-  <div class="sec">INDICADORES — TIEMPO REAL</div>
-  <div class="sig-grid">
-    <div class="sig-card sg" id="SC-M2">
-      <div class="sig-ico">💧</div>
-      <div class="sig-nm">M2 Global</div>
-      <div class="sig-vl" style="color:#30D158">$22.67T</div>
-      <div class="sig-ds">Liquidez global en maximos historicos. Muy alcista para crypto.</div>
-    </div>
-    <div class="sig-card" id="SC-DXY">
-      <div class="sig-ico">📉</div>
-      <div class="sig-nm">DXY</div>
-      <div class="sig-vl" id="SIG-DXY">—</div>
-      <div class="sig-ds" id="SIG-DXY-D">Cargando...</div>
-    </div>
-    <div class="sig-card" id="SC-BDS">
-      <div class="sig-ico">👑</div>
-      <div class="sig-nm">BTC Dominance</div>
-      <div class="sig-vl" id="SIG-BD">—</div>
-      <div class="sig-ds" id="SIG-BD-D">Cargando...</div>
-    </div>
-    <div class="sig-card" id="SC-ETH">
-      <div class="sig-ico">⚡</div>
-      <div class="sig-nm">ETH/BTC</div>
-      <div class="sig-vl" id="SIG-EB">—</div>
-      <div class="sig-ds" id="SIG-EB-D">Cargando...</div>
-    </div>
-    <div class="sig-card" id="SC-T3">
-      <div class="sig-ico">📊</div>
-      <div class="sig-nm">Total Alts</div>
-      <div class="sig-vl" id="SIG-T3">—</div>
-      <div class="sig-ds" id="SIG-T3-D">Cargando...</div>
-    </div>
-    <div class="sig-card" id="SC-FG">
-      <div class="sig-ico">😐</div>
-      <div class="sig-nm">Fear & Greed</div>
-      <div class="sig-vl" id="SIG-FG">—</div>
-      <div class="sig-ds" id="SIG-FG-D">Cargando...</div>
-    </div>
-  </div>
-
-  <!-- TradingView Widgets -->
-
-  <div class="sec">GRAFICOS EN VIVO — TRADINGVIEW</div>
-  <div style="padding:0 16px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
+  <div class="sec">MOMENTO DEL CICLO — ODÓMETROS</div>
+  <div class="odo-wrap">
 
 ```
-<div class="sig-tv">
-  <div class="sig-nm">👑 BTC DOMINANCE — GRAFICO 1 MES</div>
-  <div class="tv-mini">
-    <div class="tradingview-widget-container" style="height:90px">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:BTC.D","width":"100%","height":90,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
-    </div>
+<!-- Fear & Greed -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">😐 Fear & Greed</div>
+    <div class="odo-status" id="FG-BADGE">—</div>
   </div>
+  <div class="odo-val" id="FG-VAL">—/100</div>
+  <div class="odo-labels"><span>Panico</span><span>Neutral</span><span>Euforia</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill" id="FG-BAR" style="width:0%"></div>
+    <div class="odo-needle" id="FG-NEEDLE" style="left:0%"></div>
+  </div>
+  <div class="odo-desc" id="FG-DESC">Cargando...</div>
 </div>
 
-<div class="sig-tv">
-  <div class="sig-nm">📊 TOTAL ALTS (TOTAL3) — GRAFICO 1 MES</div>
-  <div class="tv-mini">
-    <div class="tradingview-widget-container" style="height:90px">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:TOTAL3","width":"100%","height":90,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
-    </div>
+<!-- BTC Dominance -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">👑 BTC Dominance</div>
+    <div class="odo-status" id="BD-BADGE">—</div>
   </div>
+  <div class="odo-val" id="BD-VAL">—%</div>
+  <div class="odo-labels"><span>Alt season</span><span>Transicion</span><span>BTC domina</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill" id="BD-BAR" style="width:0%"></div>
+    <div class="odo-needle" id="BD-NEEDLE" style="left:0%"></div>
+  </div>
+  <div class="odo-desc" id="BD-DESC">Ver grafico abajo para valor exacto</div>
 </div>
 
-<div class="sig-tv">
-  <div class="sig-nm">⚡ ETH/BTC — GRAFICO 1 MES</div>
-  <div class="tv-mini">
-    <div class="tradingview-widget-container" style="height:90px">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"COINBASE:ETHBTC","width":"100%","height":90,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
-    </div>
+<!-- ETH/BTC -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">⚡ ETH/BTC Ratio</div>
+    <div class="odo-status" id="EB-BADGE">—</div>
   </div>
+  <div class="odo-val" id="EB-VAL">—</div>
+  <div class="odo-labels"><span>ETH muy debil</span><span>Neutral</span><span>ETH fuerte</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill" id="EB-BAR" style="width:0%"></div>
+    <div class="odo-needle" id="EB-NEEDLE" style="left:0%"></div>
+  </div>
+  <div class="odo-desc" id="EB-DESC">Cargando...</div>
 </div>
 
-<div class="sig-tv">
-  <div class="sig-nm">📉 DXY — GRAFICO 1 MES</div>
-  <div class="tv-mini">
-    <div class="tradingview-widget-container" style="height:90px">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"TVC:DXY","width":"100%","height":90,"locale":"es","dateRange":"1M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
-    </div>
+<!-- Total Alts -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">📊 Total Alts (TOTAL3)</div>
+    <div class="odo-status" id="T3-BADGE">—</div>
   </div>
+  <div class="odo-val" id="T3-VAL">—</div>
+  <div class="odo-labels"><span>Deprimidas</span><span>Recuperando</span><span>Alt season</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill" id="T3-BAR" style="width:0%"></div>
+    <div class="odo-needle" id="T3-NEEDLE" style="left:0%"></div>
+  </div>
+  <div class="odo-desc" id="T3-DESC">Ver grafico abajo para valor exacto</div>
 </div>
 
-<div class="sig-tv" style="padding:12px">
-  <div class="sig-nm" style="margin-bottom:8px">🗺️ MAPA DEL MERCADO CRYPTO — EN VIVO</div>
-  <div class="tradingview-widget-container" style="height:220px">
-    <div class="tradingview-widget-container__widget"></div>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>{"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"change","locale":"es","colorTheme":"light","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":false,"hasSymbolTooltip":true,"width":"100%","height":220}</script>
+<!-- DXY -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">📉 DXY Dólar Index</div>
+    <div class="odo-status" id="DX-BADGE">ALCISTA</div>
   </div>
+  <div class="odo-val" id="DX-VAL">98.39</div>
+  <div class="odo-labels"><span>Debil (bueno)</span><span>Neutral</span><span>Fuerte (malo)</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill g" id="DX-BAR" style="width:30%"></div>
+    <div class="odo-needle" id="DX-NEEDLE" style="left:30%"></div>
+  </div>
+  <div class="odo-desc">Dolar debil en minimos. Historicamente muy favorable para BTC y alts.</div>
+</div>
+
+<!-- M2 Global -->
+<div class="odo-card">
+  <div class="odo-top">
+    <div class="odo-name">💧 M2 Global</div>
+    <div class="odo-status g">MUY ALCISTA</div>
+  </div>
+  <div class="odo-val" style="color:#30D158">$22.67T</div>
+  <div class="odo-labels"><span>Contraccion</span><span>Estable</span><span>Expansion</span></div>
+  <div class="odo-bar-wrap">
+    <div class="odo-bar-fill g" style="width:88%"></div>
+    <div class="odo-needle" style="left:88%"></div>
+  </div>
+  <div class="odo-desc">Liquidez global en maximos historicos. Entorno macro muy favorable para crypto.</div>
 </div>
 ```
 
   </div>
 
-  <!-- Fear & Greed -->
+  <!-- TradingView Graficos -->
 
-  <div class="sec">FEAR AND GREED — TIEMPO REAL</div>
+  <div class="sec">GRÁFICOS EN VIVO — TRADINGVIEW</div>
+  <div style="padding:0 16px;display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+    <div class="tv-card">
+      <div class="tv-lbl">👑 BTC DOMINANCE</div>
+      <div class="tradingview-widget-container" style="height:120px">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:BTC.D","width":"100%","height":120,"locale":"es","dateRange":"3M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
+      </div>
+    </div>
+    <div class="tv-card">
+      <div class="tv-lbl">📊 TOTAL ALTS (TOTAL3)</div>
+      <div class="tradingview-widget-container" style="height:120px">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"CRYPTOCAP:TOTAL3","width":"100%","height":120,"locale":"es","dateRange":"3M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
+      </div>
+    </div>
+    <div class="tv-card">
+      <div class="tv-lbl">⚡ ETH/BTC</div>
+      <div class="tradingview-widget-container" style="height:120px">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"COINBASE:ETHBTC","width":"100%","height":120,"locale":"es","dateRange":"3M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
+      </div>
+    </div>
+    <div class="tv-card">
+      <div class="tv-lbl">📉 DXY — DÓLAR INDEX</div>
+      <div class="tradingview-widget-container" style="height:120px">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>{"symbol":"TVC:DXY","width":"100%","height":120,"locale":"es","dateRange":"3M","colorTheme":"light","isTransparent":true,"autosize":true}</script>
+      </div>
+    </div>
+    <div class="tv-card">
+      <div class="tv-lbl">🗺️ MAPA DEL MERCADO CRYPTO</div>
+      <div class="tradingview-widget-container" style="height:240px">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>{"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"change","locale":"es","colorTheme":"light","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":false,"hasSymbolTooltip":true,"width":"100%","height":240}</script>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fear & Greed detalle -->
+
+  <div class="sec">FEAR AND GREED — DETALLE</div>
   <div class="card">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px" id="FG-TITLE">😐 Indice Miedo y Codicia</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px" id="FG-TITLE">😐 Indice Miedo y Codicia</div>
     <div class="fg-wrap">
       <div style="flex-shrink:0">
         <svg width="110" height="62" viewBox="0 0 110 62">
@@ -473,7 +514,7 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;overflo
       <div>
         <div class="fg-score" id="FGS">—</div>
         <div class="fg-lbl" id="FGL">Cargando...</div>
-        <div class="fg-desc" id="FGD">Obteniendo datos en tiempo real...</div>
+        <div class="fg-desc" id="FGD">Obteniendo datos...</div>
       </div>
     </div>
   </div>
