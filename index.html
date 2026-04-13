@@ -301,8 +301,10 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;min-hei
 <!-- TARGETS -->
 
 <div class="view" id="view-targets">
-  <div class="sec">TAKE PROFITS POR TOKEN</div>
-  <div class="tlist" id="TGLIST"></div>
+  <div class="sec">TUS OBJETIVOS — ORDENADOS POR PROXIMIDAD</div>
+  <div style="padding:0 16px;display:flex;flex-direction:column;gap:0" id="TGLIST">
+    <div style="text-align:center;padding:40px;color:#8E8E93;font-size:13px">Cargando objetivos...</div>
+  </div>
 </div>
 
 <!-- SIGNALS -->
@@ -728,11 +730,77 @@ function renderTokens(){
 }
 
 function renderTargets(){
-  var el=document.getElementById('TGLIST'),pcts=[.2,.3,.3,.2],html='';
-  for(var i=0;i<PF.length;i++){
-    var t=PF[i],tG=0,tpr='';
-    for(var j=0;j<t.tp.length;j++){var rr=tpGain(t,j);tG+=rr.gain;tpr+='<div class="tpr"><div class="tpr-l">TP'+(j+1)+' '+(pcts[j]*100).toFixed(0)+'%</div><div class="tpr-b">$'+(t.tp[j]/1000).toFixed(0)+'k BTC</div><div class="tpr-p">'+fmt(rr.pr)+'</div><div class="tpr-g">+$'+Math.round(rr.gain).toLocaleString('es-ES')+'</div></div>';}
-    html+='<div class="tcard '+tcls(t)+'" style="animation-delay:'+(i*.05)+'s"><div class="tc-r1"><div class="tc-sym">'+t.sym+'</div><div class="tc-val" style="color:#30D158">+$'+Math.round(tG).toLocaleString('es-ES')+'</div></div><div class="tc-r2"><div class="tc-un">A $148k: '+fmt(tpAt(t,148000))+'</div><div class="tc-pnl" style="color:#8E8E93">x'+t.m+' vs BTC</div></div><div class="tpr" style="color:#8E8E93;font-size:9px;font-weight:700"><div class="tpr-l">TRAMO</div><div class="tpr-b">BTC EN</div><div class="tpr-p">PRECIO '+t.sym+'</div><div class="tpr-g">GANANCIA</div></div>'+tpr+'</div>';
+  var el=document.getElementById('TGLIST');
+  var pcts=[.2,.3,.3,.2];
+  var bxCls=['tg-b1','tg-b2','tg-b3','tg-b4'];
+  var bxLbls=['TP1 · 20%','TP2 · 30%','TP3 · 30%','TP4 · 20%'];
+
+  // Ordenar por % completado hacia TP1 (los más cerca primero)
+  var sorted=PF.slice().sort(function(a,b){
+    var pctA=btcP>0?Math.min(100,(btcP/a.tp[0]*100)):0;
+    var pctB=btcP>0?Math.min(100,(btcP/b.tp[0]*100)):0;
+    return pctB-pctA;
+  });
+
+  var html='';
+  for(var i=0;i<sorted.length;i++){
+    var t=sorted[i];
+    var totalGain=0;
+    for(var j=0;j<4;j++)totalGain+=tpGain(t,j).gain;
+
+    // % hacia TP1
+    var progPct=btcP>0?Math.min(99,(btcP/t.tp[0]*100)).toFixed(0):0;
+    var progCol=progPct>80?'linear-gradient(90deg,#30D158,#4ADE80)':progPct>60?'linear-gradient(90deg,#FF9F0A,#FFD60A)':'linear-gradient(90deg,#D1D1D6,#8E8E93)';
+    var dotCol=progPct>80?'#30D158':progPct>60?'#FF9F0A':'#8E8E93';
+    var cardCls=progPct>80?'tg-green':progPct>60?'tg-amber':'tg-gray';
+    var isFirst=i===0;
+
+    // Next TP data
+    var nextR=tpGain(t,0);
+    var unitsToSell=(t.u*pcts[0]).toFixed(2);
+    var btcFalta=btcP>0?Math.max(0,t.tp[0]-btcP):0;
+
+    // Boxes
+    var boxes='';
+    for(var b=0;b<4;b++){
+      var rr=tpGain(t,b);
+      boxes+='<div class="tg-box '+bxCls[b]+'">';
+      boxes+='<div class="tg-box-lbl">'+bxLbls[b]+' · $'+(t.tp[b]/1000).toFixed(0)+'k</div>';
+      boxes+='<div class="tg-box-gain">+$'+Math.round(rr.gain).toLocaleString('es-ES')+'</div>';
+      boxes+='<div class="tg-box-price">'+t.sym+' → '+fmt(rr.pr)+'</div>';
+      boxes+='<div class="tg-box-btc">BTC $'+(t.tp[b]/1000).toFixed(0)+'k</div>';
+      boxes+='</div>';
+    }
+
+    html+='<div class="tg-card '+cardCls+'">';
+
+    // Head
+    html+='<div class="tg-head"><div>';
+    html+='<div class="tg-sym">'+t.sym+(isFirst?'<span class="tg-badge">⚡ MÁS CERCA</span>':'')+'</div>';
+    html+='<div class="tg-sub">'+t.u.toFixed(4)+' uds · BE '+fmt(t.be)+(t.apy>0?' · '+t.apy+'% APY':'')+'</div>';
+    html+='</div><div class="tg-total"><div class="tg-total-lbl">Total a cobrar</div><div class="tg-total-val">+$'+Math.round(totalGain).toLocaleString('es-ES')+'</div></div></div>';
+
+    // Progress
+    html+='<div class="tg-prog-section">';
+    html+='<div class="tg-prog-top"><div class="tg-prog-lbl">BTC actual '+fmt(btcP)+' → TP1 $'+(t.tp[0]/1000).toFixed(0)+'k</div><div class="tg-prog-pct" style="color:'+dotCol+'">'+progPct+'%</div></div>';
+    html+='<div class="tg-prog-track">';
+    html+='<div class="tg-prog-fill" style="width:'+progPct+'%;background:'+progCol+'"></div>';
+    html+='<div class="tg-prog-dot" style="left:'+progPct+'%;border-color:'+dotCol+';color:'+dotCol+'">'+progPct+'</div>';
+    html+='<div class="tg-prog-target">$'+(t.tp[0]/1000).toFixed(0)+'k 🎯</div>';
+    html+='</div>';
+    html+='<div class="tg-prog-sublabels"><span>$60k</span><span>TP1 $'+(t.tp[0]/1000).toFixed(0)+'k</span><span>TP4 $'+(t.tp[3]/1000).toFixed(0)+'k</span></div>';
+    html+='</div>';
+
+    // Next TP
+    html+='<div class="tg-next"><div>';
+    html+='<div class="tg-next-lbl">⚡ Próximo — TP1 (20%)</div>';
+    html+='<div class="tg-next-info">'+t.sym+' a '+fmt(nextR.pr)+' cuando BTC $'+(t.tp[0]/1000).toFixed(0)+'k</div>';
+    html+='<div class="tg-next-sub">Vender '+unitsToSell+' '+t.sym+(btcFalta>0?' · Faltan $'+Math.round(btcFalta).toLocaleString('es-ES')+' BTC':'')+'</div>';
+    html+='</div><div style="text-align:right"><div class="tg-next-gain">+$'+Math.round(nextR.gain).toLocaleString('es-ES')+'</div><div class="tg-next-action">cobro neto</div></div></div>';
+
+    // Grid boxes
+    html+='<div class="tg-grid">'+boxes+'</div>';
+    html+='</div>';
   }
   el.innerHTML=html;
 }
