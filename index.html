@@ -358,98 +358,113 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;overflo
 <!-- VIEW: SIGNALS -->
 
 <div class="view" id="view-signals">
-  <div class="sec">MOMENTO DEL CICLO — ODÓMETROS</div>
-  <div class="odo-wrap">
+
+  <!-- ODOMETRO GENERAL DEL CICLO -->
+
+  <div class="sec">TERMÓMETRO DEL CICLO</div>
+  <div class="card" style="padding:20px">
 
 ```
-<!-- Fear & Greed -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">😐 Fear & Greed</div>
-    <div class="odo-status" id="FG-BADGE">—</div>
-  </div>
-  <div class="odo-val" id="FG-VAL">—/100</div>
-  <div class="odo-labels"><span>Panico</span><span>Neutral</span><span>Euforia</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill" id="FG-BAR" style="width:0%"></div>
-    <div class="odo-needle" id="FG-NEEDLE" style="left:0%"></div>
-  </div>
-  <div class="odo-desc" id="FG-DESC">Cargando...</div>
+<!-- Score grande -->
+<div style="text-align:center;margin-bottom:16px">
+  <div id="CYCLE-EMOJI" style="font-size:40px;margin-bottom:6px">⏳</div>
+  <div id="CYCLE-LABEL" style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#1C1C1E">Calculando...</div>
+  <div id="CYCLE-SUB" style="font-size:12px;color:#8E8E93;margin-top:4px">Analizando indicadores del mercado</div>
 </div>
 
-<!-- BTC Dominance -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">👑 BTC Dominance</div>
-    <div class="odo-status" id="BD-BADGE">—</div>
+<!-- Barra principal -->
+<div style="margin-bottom:6px">
+  <div style="display:flex;justify-content:space-between;font-size:9px;color:#8E8E93;margin-bottom:6px;font-weight:700">
+    <span>🔴 BEAR</span><span>🟡 ACUMULAR</span><span>🟢 BULL</span>
   </div>
-  <div class="odo-val" id="BD-VAL">—%</div>
-  <div class="odo-labels"><span>Alt season</span><span>Transicion</span><span>BTC domina</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill" id="BD-BAR" style="width:0%"></div>
-    <div class="odo-needle" id="BD-NEEDLE" style="left:0%"></div>
+  <div style="position:relative;height:18px;border-radius:9px;overflow:hidden;background:linear-gradient(90deg,#FF453A 0%,#FF9F0A 40%,#FFD60A 60%,#30D158 100%)">
+    <div id="CYCLE-NEEDLE" style="position:absolute;top:-4px;width:6px;height:26px;background:#1C1C1E;border-radius:3px;transform:translateX(-50%);transition:left 1s ease;left:30%"></div>
   </div>
-  <div class="odo-desc" id="BD-DESC">Ver grafico abajo para valor exacto</div>
+  <div style="display:flex;justify-content:space-between;font-size:9px;color:#8E8E93;margin-top:4px">
+    <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+  </div>
 </div>
 
-<!-- ETH/BTC -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">⚡ ETH/BTC Ratio</div>
-    <div class="odo-status" id="EB-BADGE">—</div>
-  </div>
-  <div class="odo-val" id="EB-VAL">—</div>
-  <div class="odo-labels"><span>ETH muy debil</span><span>Neutral</span><span>ETH fuerte</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill" id="EB-BAR" style="width:0%"></div>
-    <div class="odo-needle" id="EB-NEEDLE" style="left:0%"></div>
-  </div>
-  <div class="odo-desc" id="EB-DESC">Cargando...</div>
+<!-- Score numerico -->
+<div style="text-align:center;margin:12px 0">
+  <span id="CYCLE-SCORE" style="font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#1C1C1E">—</span>
+  <span style="font-size:18px;color:#8E8E93;font-weight:700">/100</span>
 </div>
 
-<!-- Total Alts -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">📊 Total Alts (TOTAL3)</div>
-    <div class="odo-status" id="T3-BADGE">—</div>
+<!-- Breakdown de indicadores -->
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid #F2F2F7">
+  <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:#8E8E93;text-transform:uppercase;margin-bottom:4px">Desglose de indicadores</div>
+
+  <div style="display:flex;align-items:center;gap:10px" id="IND-FG">
+    <span style="font-size:16px">😐</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">Fear & Greed</span>
+        <span style="font-size:10px;font-weight:700" id="IND-FG-VAL">—</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div id="IND-FG-BAR" style="height:100%;border-radius:3px;background:#FF9F0A;width:0%;transition:width .8s ease"></div></div>
+    </div>
   </div>
-  <div class="odo-val" id="T3-VAL">—</div>
-  <div class="odo-labels"><span>Deprimidas</span><span>Recuperando</span><span>Alt season</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill" id="T3-BAR" style="width:0%"></div>
-    <div class="odo-needle" id="T3-NEEDLE" style="left:0%"></div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">⚡</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">ETH/BTC Ratio</span>
+        <span style="font-size:10px;font-weight:700" id="IND-EB-VAL">—</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div id="IND-EB-BAR" style="height:100%;border-radius:3px;background:#FF9F0A;width:0%;transition:width .8s ease"></div></div>
+    </div>
   </div>
-  <div class="odo-desc" id="T3-DESC">Ver grafico abajo para valor exacto</div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">👑</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">BTC Dominance</span>
+        <span style="font-size:10px;font-weight:700" id="IND-BD-VAL">59.4%</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div id="IND-BD-BAR" style="height:100%;border-radius:3px;background:#FF9F0A;width:35%;transition:width .8s ease"></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">📊</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">Total Alts (TOTAL3)</span>
+        <span style="font-size:10px;font-weight:700" id="IND-T3-VAL">$706B</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div id="IND-T3-BAR" style="height:100%;border-radius:3px;background:#FF453A;width:30%;transition:width .8s ease"></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">📉</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">DXY Dólar</span>
+        <span style="font-size:10px;font-weight:700" id="IND-DX-VAL">98.39</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div style="height:100%;border-radius:3px;background:#30D158;width:78%"></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">💧</span>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:10px;font-weight:700;color:#1C1C1E">M2 Global</span>
+        <span style="font-size:10px;font-weight:700;color:#30D158">$22.67T</span>
+      </div>
+      <div style="height:5px;border-radius:3px;background:#F2F2F7;overflow:hidden"><div style="height:100%;border-radius:3px;background:#30D158;width:88%"></div></div>
+    </div>
+  </div>
 </div>
 
-<!-- DXY -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">📉 DXY Dólar Index</div>
-    <div class="odo-status" id="DX-BADGE">ALCISTA</div>
-  </div>
-  <div class="odo-val" id="DX-VAL">98.39</div>
-  <div class="odo-labels"><span>Debil (bueno)</span><span>Neutral</span><span>Fuerte (malo)</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill g" id="DX-BAR" style="width:30%"></div>
-    <div class="odo-needle" id="DX-NEEDLE" style="left:30%"></div>
-  </div>
-  <div class="odo-desc">Dolar debil en minimos. Historicamente muy favorable para BTC y alts.</div>
-</div>
-
-<!-- M2 Global -->
-<div class="odo-card">
-  <div class="odo-top">
-    <div class="odo-name">💧 M2 Global</div>
-    <div class="odo-status g">MUY ALCISTA</div>
-  </div>
-  <div class="odo-val" style="color:#30D158">$22.67T</div>
-  <div class="odo-labels"><span>Contraccion</span><span>Estable</span><span>Expansion</span></div>
-  <div class="odo-bar-wrap">
-    <div class="odo-bar-fill g" style="width:88%"></div>
-    <div class="odo-needle" style="left:88%"></div>
-  </div>
-  <div class="odo-desc">Liquidez global en maximos historicos. Entorno macro muy favorable para crypto.</div>
+<!-- Consejo de estrategia -->
+<div id="CYCLE-ADVICE" style="margin-top:16px;padding:12px;border-radius:12px;background:#F2F2F7;font-size:11px;color:#1C1C1E;line-height:1.6;font-weight:500">
+  Calculando consejo estrategico...
 </div>
 ```
 
@@ -492,29 +507,6 @@ body{background:#F2F2F7;color:#1C1C1E;font-family:'Space Mono',monospace;overflo
       <div class="tradingview-widget-container" style="height:240px">
         <div class="tradingview-widget-container__widget"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>{"dataSource":"Crypto","blockSize":"market_cap_calc","blockColor":"change","locale":"es","colorTheme":"light","hasTopBar":false,"isDataSetEnabled":false,"isZoomEnabled":false,"hasSymbolTooltip":true,"width":"100%","height":240}</script>
-      </div>
-    </div>
-  </div>
-
-  <!-- Fear & Greed detalle -->
-
-  <div class="sec">FEAR AND GREED — DETALLE</div>
-  <div class="card">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px" id="FG-TITLE">😐 Indice Miedo y Codicia</div>
-    <div class="fg-wrap">
-      <div style="flex-shrink:0">
-        <svg width="110" height="62" viewBox="0 0 110 62">
-          <defs><linearGradient id="fgG" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FF453A"/><stop offset="50%" style="stop-color:#FF9F0A"/><stop offset="100%" style="stop-color:#30D158"/></linearGradient></defs>
-          <path d="M 8 58 A 48 48 0 0 1 102 58" fill="none" stroke="#E5E5EA" stroke-width="9" stroke-linecap="round"/>
-          <path id="FGF" d="M 8 58 A 48 48 0 0 1 102 58" fill="none" stroke="url(#fgG)" stroke-width="9" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="75"/>
-          <line id="FGN" x1="55" y1="58" x2="55" y2="18" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" transform-origin="55 58"/>
-          <circle cx="55" cy="58" r="5" fill="white" stroke="#1C1C1E" stroke-width="2"/>
-        </svg>
-      </div>
-      <div>
-        <div class="fg-score" id="FGS">—</div>
-        <div class="fg-lbl" id="FGL">Cargando...</div>
-        <div class="fg-desc" id="FGD">Obteniendo datos...</div>
       </div>
     </div>
   </div>
