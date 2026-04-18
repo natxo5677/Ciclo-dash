@@ -166,34 +166,42 @@ TOKENS PAGE
 .tp-bar-labs{display:flex;justify-content:space-between;font-size:8px;color:var(–txt3);font-family:‘JetBrains Mono’,monospace}
 
 /* ══════════════════════════════════════
-OBJETIVOS PAGE
+OBJETIVOS PAGE — RADIAL RINGS
 ══════════════════════════════════════ */
-.tgcard{background:var(–card);border-radius:var(–r);padding:16px;border:1px solid var(–border);box-shadow:var(–sh);margin-bottom:10px;position:relative;overflow:hidden}
-.tgstripe{position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:5px 0 0 5px}
-.tg-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.tg-sym{font-size:22px;font-weight:900;color:var(–txt);display:flex;align-items:center;gap:8px}
-.tg-bdg{font-size:8px;font-weight:800;padding:3px 9px;border-radius:20px;background:var(–ybg);color:var(–yellow);border:1px solid var(–ybdr)}
-.tg-sub{font-size:9px;color:var(–txt3);margin-top:3px;font-family:‘JetBrains Mono’,monospace}
-.tg-total-lbl{font-size:8px;color:var(–txt3);text-align:right;font-weight:600}
-.tg-total-val{font-size:22px;font-weight:900;color:var(–green);font-family:‘JetBrains Mono’,monospace}
-.tg-prog{margin-bottom:12px}
-.tg-prog-top{display:flex;justify-content:space-between;margin-bottom:6px}
-.tg-prog-inf{font-size:10px;color:var(–txt3)}
-.tg-prog-pct{font-size:12px;font-weight:800}
-.tg-prog-track{height:10px;background:var(–bg3);border-radius:5px;position:relative;margin-bottom:5px;overflow:visible}
-.tg-prog-fill{height:100%;border-radius:5px;transition:width .8s}
-.tg-prog-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#fff;border:2.5px solid;box-shadow:0 2px 8px rgba(0,0,0,.12);font-size:6px;font-weight:800;z-index:2;display:flex;align-items:center;justify-content:center}
-.tg-prog-labs{display:flex;justify-content:space-between;font-size:8px;color:var(–txt3);font-family:‘JetBrains Mono’,monospace}
-.tg-next{background:var(–ybg);border:1px solid var(–ybdr);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.tg-next-lbl{font-size:8px;font-weight:800;color:var(–yellow);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
-.tg-next-info{font-size:11px;font-weight:700;color:var(–txt)}
-.tg-next-sub{font-size:9px;color:var(–txt3);margin-top:1px}
-.tg-next-gain{font-size:20px;font-weight:900;color:var(–yellow);font-family:‘JetBrains Mono’,monospace}
-.tg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tg-box{border-radius:10px;padding:10px 12px;background:var(–bg3);border:1px solid var(–border)}
-.tg-box-lbl{font-size:7px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
-.tg-box-gain{font-size:15px;font-weight:900;font-family:‘JetBrains Mono’,monospace}
-.tg-box-price{font-size:9px;font-weight:600;color:var(–txt);margin-top:2px;font-family:‘JetBrains Mono’,monospace}
+.obj-page{padding:0 16px 16px}
+/* Hero siguiente cobro */
+.next-hero{background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(–r);padding:20px 22px;margin-bottom:14px;box-shadow:var(–sh2)}
+.nh-lbl{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px}
+.nh-sym{font-size:13px;font-weight:800;color:rgba(255,255,255,.5);margin-bottom:2px}
+.nh-val{font-size:44px;font-weight:900;color:#fff;letter-spacing:-.04em;line-height:1}
+.nh-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
+.nh-action{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1)}
+.nh-act-lbl{font-size:10px;font-weight:700;color:var(–yellow)}
+.nh-act-info{font-size:12px;font-weight:700;color:#fff;margin-top:2px}
+.nh-act-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:1px}
+.nh-act-pct{font-size:32px;font-weight:900;color:var(–yellow);font-family:‘JetBrains Mono’,monospace}
+
+/* Grid de anillos */
+.rings-title{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(–txt3);text-transform:uppercase;margin-bottom:12px}
+.rings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ring-card{background:var(–card);border-radius:var(–r2);padding:16px 12px;border:1px solid var(–border);box-shadow:var(–sh);text-align:center;cursor:pointer;transition:transform .15s;position:relative}
+.ring-card:active{transform:scale(.96)}
+.ring-card.reached{background:var(–gbg);border-color:var(–gbdr)}
+.ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+.ring-inner{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:18px;font-weight:900;font-family:‘JetBrains Mono’,monospace;line-height:1}
+.ring-sym{font-size:10px;font-weight:800;color:var(–txt3);margin-top:2px;letter-spacing:.04em}
+.ring-tp1{font-size:10px;font-weight:700;font-family:‘JetBrains Mono’,monospace;color:var(–txt)}
+.ring-gain{font-size:11px;font-weight:800;font-family:‘JetBrains Mono’,monospace;margin-top:2px}
+.ring-status{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:4px;padding:2px 8px;border-radius:10px;display:inline-block}
+.ring-status.g{background:var(–gbg);color:var(–green)}
+.ring-status.y{background:var(–ybg);color:var(–yellow)}
+.ring-status.r{background:var(–rbg);color:var(–red)}
+/* TP mini dots */
+.ring-dots{display:flex;gap:3px;justify-content:center;margin-top:6px}
+.rdot{width:6px;height:6px;border-radius:50%;background:var(–bg3)}
+.rdot.hit{background:var(–green)}
+.rdot.next{background:var(–yellow);animation:pulse 1.5s infinite}
 
 /* ══════════════════════════════════════
 PROYECCIÓN PAGE
@@ -384,8 +392,30 @@ SEÑALES PAGE
 <!-- ═══ OBJETIVOS ═══ -->
 
 <div class="view" id="view-targets">
-  <div class="slbl">OBJETIVOS — POR PROXIMIDAD AL TP1</div>
-  <div style="padding:0 16px" id="TGLIST"></div>
+  <div style="padding:14px 16px 0" class="obj-page">
+    <!-- Hero: próximo cobro -->
+    <div class="next-hero" id="TG-HERO">
+      <div class="nh-lbl">⚡ Próximo cobro — TP1</div>
+      <div class="nh-sym" id="TG-SYM">—</div>
+      <div class="nh-val" id="TG-GAIN">$—</div>
+      <div class="nh-sub" id="TG-SUB">Cargando...</div>
+      <div class="nh-action">
+        <div>
+          <div class="nh-act-lbl">ACCIÓN</div>
+          <div class="nh-act-info" id="TG-ACT">—</div>
+          <div class="nh-act-sub" id="TG-FALTA">—</div>
+        </div>
+        <div class="nh-act-pct" id="TG-PCT">—%</div>
+      </div>
+    </div>
+
+```
+<!-- Grid de anillos -->
+<div class="rings-title">TODOS LOS TOKENS — PROGRESO AL TP1</div>
+<div class="rings-grid" id="RINGS"></div>
+```
+
+  </div>
 </div>
 
 <!-- ═══ PROYECCIÓN ═══ -->
@@ -865,36 +895,96 @@ function renderTokens(){
 }
 
 // ══════════════════════════════════════
-// OBJETIVOS
+// OBJETIVOS — Radial rings
 // ══════════════════════════════════════
 function renderTargets(){
-  var el=document.getElementById('TGLIST');
+  // Sort by proximity to TP1
   var sorted=PF.slice().sort(function(a,b){
     var pA=a.p>0?Math.min(100,(a.p/a.tp[0]*100)):0;
     var pB=b.p>0?Math.min(100,(b.p/b.tp[0]*100)):0;
     return pB-pA;
   });
-  var tpBg=['var(--ybg)','var(--bbg)','#F5F3FF','var(--gbg)'];
-  var tpBdr=['var(--ybdr)','var(--bbdr)','#DDD6FE','var(--gbdr)'];
+
+  // HERO — token más cercano a TP1
+  var first=sorted[0];
+  var firstProg=first.p>0?Math.min(100,(first.p/first.tp[0]*100)):0;
+  var firstGain=tpSingle(first,0).gain;
+  var firstFalta=first.p>0?Math.max(0,first.tp[0]-first.p):0;
+  document.getElementById('TG-SYM').textContent=first.sym+' — Vender '+(first.u*.20).toFixed(3)+' a '+fmt(first.tp[0]);
+  document.getElementById('TG-GAIN').textContent='+$'+Math.round(firstGain).toLocaleString('es-ES');
+  document.getElementById('TG-SUB').textContent='Cuando BTC llegue al nivel correspondiente';
+  document.getElementById('TG-ACT').textContent='TP1 · 20% de '+first.sym;
+  document.getElementById('TG-FALTA').textContent=firstFalta>0?'Falta '+fmt(firstFalta)+' por unidad':'✅ Precio TP1 superado';
+  document.getElementById('TG-PCT').textContent=firstProg.toFixed(0)+'%';
+
+  // RINGS GRID
+  var RING_SIZE=130;
+  var STROKE=10;
+  var R=(RING_SIZE-STROKE*2)/2;
+  var CIRC=2*Math.PI*R;
+  var tpColors=['#FF9500','#007AFF','#5856D6','#00C566'];
+
   var html='';
   for(var i=0;i<sorted.length;i++){
-    var t=sorted[i],rAll=tpAll(t);
-    var prog=t.p>0?Math.min(99,(t.p/t.tp[0]*100)).toFixed(0):0;
-    var acc=prog>80?'#00C566':prog>60?'#FF9500':'#8E8E93';
-    var isFirst=i===0,falta=t.p>0?Math.max(0,t.tp[0]-t.p):0;
-    var r1=tpSingle(t,0);
-    html+='<div class="tgcard" style="animation-delay:'+(i*.04)+'s">';
-    html+='<div class="tgstripe" style="background:'+acc+'"></div>';
-    html+='<div class="tg-head"><div><div class="tg-sym">'+t.sym+(isFirst?'<span class="tg-bdg">⚡ MÁS CERCA</span>':'')+'</div><div class="tg-sub">'+t.u.toFixed(4)+' uds · BE '+fmt(t.be)+(t.apy>0?' · '+t.apy+'% APY':'')+'</div></div><div><div class="tg-total-lbl">Gan. total</div><div class="tg-total-val">+$'+Math.round(rAll.g).toLocaleString('es-ES')+'</div></div></div>';
-    html+='<div class="tg-prog"><div class="tg-prog-top"><div class="tg-prog-inf">'+fmt(t.p)+' → TP1 '+fmt(t.tp[0])+'</div><div class="tg-prog-pct" style="color:'+acc+'">'+prog+'%</div></div>';
-    html+='<div class="tg-prog-track"><div class="tg-prog-fill" style="width:'+prog+'%;background:'+acc+'"></div><div class="tg-prog-dot" style="left:'+prog+'%;border-color:'+acc+'">'+prog+'</div></div>';
-    html+='<div class="tg-prog-labs"><span>0</span><span>TP1 '+fmt(t.tp[0])+'</span><span>TP4 '+fmt(t.tp[3])+'</span></div></div>';
-    html+='<div class="tg-next"><div><div class="tg-next-lbl">⚡ TP1 · 20%</div><div class="tg-next-info">Vender '+(t.u*.20).toFixed(3)+' '+t.sym+' a '+fmt(t.tp[0])+'</div><div class="tg-next-sub">'+(falta>0?'Falta '+fmt(falta)+' por unidad':'✅ Precio superado')+'</div></div><div class="tg-next-gain">+$'+Math.round(r1.gain).toLocaleString('es-ES')+'</div></div>';
-    html+='<div class="tg-grid">';
-    for(var b=0;b<4;b++){var rr=tpSingle(t,b);html+='<div class="tg-box" style="background:'+tpBg[b]+';border-color:'+tpBdr[b]+'"><div class="tg-box-lbl" style="color:'+TPCOLS[b]+'">TP'+(b+1)+' · '+[20,30,30,20][b]+'%</div><div class="tg-box-gain" style="color:'+TPCOLS[b]+'">+$'+Math.round(rr.gain).toLocaleString('es-ES')+'</div><div class="tg-box-price">'+fmt(t.tp[b])+'</div></div>';}
+    var t=sorted[i];
+    var prog=t.p>0?Math.min(100,(t.p/t.tp[0]*100)):0;
+    var reached=prog>=100;
+    var rr=tpSingle(t,0);
+
+    // Color based on progress
+    var ringCol=prog>=90?'#00C566':prog>=70?'#34C759':prog>=50?'#FF9500':prog>=30?'#FF6B00':'#FF3B30';
+    var dashOff=(CIRC-(prog/100)*CIRC).toFixed(1);
+    var statusCls=prog>=90?'g':prog>=50?'y':'r';
+    var statusLbl=prog>=100?'✅ LISTO':prog>=90?'MUY CERCA':prog>=70?'CERCA':prog>=50?'A MITAD':'LEJOS';
+
+    // Which TPs are hit
+    var dots='';
+    for(var d=0;d<4;d++){
+      var hit=t.p>0&&t.p>=t.tp[d];
+      var isNext=!hit&&(d===0||(t.p>0&&t.p>=t.tp[d-1]));
+      dots+='<div class="rdot'+(hit?' hit':isNext?' next':'')+'"></div>';
+    }
+
+    html+='<div class="ring-card'+(reached?' reached':'')+'" onclick="showRingDetail('+PF.indexOf(t)+')">';
+
+    // SVG ring
+    html+='<div class="ring-wrap">';
+    html+='<svg width="'+RING_SIZE+'" height="'+RING_SIZE+'" viewBox="0 0 '+RING_SIZE+' '+RING_SIZE+'">';
+    // Background ring
+    html+='<circle cx="'+(RING_SIZE/2)+'" cy="'+(RING_SIZE/2)+'" r="'+R+'" fill="none" stroke="#E5E5EA" stroke-width="'+STROKE+'"/>';
+    // Progress ring
+    html+='<circle cx="'+(RING_SIZE/2)+'" cy="'+(RING_SIZE/2)+'" r="'+R+'" fill="none" stroke="'+ringCol+'" stroke-width="'+STROKE+'" stroke-linecap="round" stroke-dasharray="'+CIRC.toFixed(1)+'" stroke-dashoffset="'+dashOff+'" transform="rotate(-90,'+(RING_SIZE/2)+','+(RING_SIZE/2)+')" style="transition:stroke-dashoffset .9s ease"/>';
+    // TP markers (subtle ticks at 25/50/75/100%)
+    [25,50,75,100].forEach(function(pctMark,mi){
+      var angle=(-90+(pctMark/100)*360)*Math.PI/180;
+      var cx=RING_SIZE/2+Math.cos(angle)*(R);
+      var cy=RING_SIZE/2+Math.sin(angle)*(R);
+      html+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="3" fill="'+(t.p>0&&prog>=pctMark?tpColors[mi]:'#D1D1D6')+'"/>';
+    });
+    html+='</svg>';
+    // Inner content
+    html+='<div class="ring-inner">';
+    html+='<div class="ring-pct" style="color:'+ringCol+'">'+prog.toFixed(0)+'%</div>';
+    html+='<div class="ring-sym">'+t.sym+'</div>';
     html+='</div></div>';
+
+    // Below ring
+    html+='<div class="ring-tp1">TP1 '+fmt(t.tp[0])+'</div>';
+    html+='<div class="ring-gain" style="color:'+ringCol+'">+$'+Math.round(rr.gain).toLocaleString('es-ES')+'</div>';
+    html+='<div class="ring-status '+statusCls+'">'+statusLbl+'</div>';
+    html+='<div class="ring-dots">'+dots+'</div>';
+    html+='</div>';
   }
-  el.innerHTML=html;
+  document.getElementById('RINGS').innerHTML=html;
+}
+
+// Ring detail tooltip
+function showRingDetail(idx){
+  var t=PF[idx];
+  var prog=t.p>0?Math.min(100,(t.p/t.tp[0]*100)):0;
+  var falta=t.p>0?Math.max(0,t.tp[0]-t.p):0;
+  var r1=tpSingle(t,0);
+  showToast(t.sym+' → TP1 '+fmt(t.tp[0])+' · '+prog.toFixed(0)+'% · +$'+Math.round(r1.gain),'tg2');
 }
 
 // ══════════════════════════════════════
