@@ -204,33 +204,36 @@ OBJETIVOS PAGE — RADIAL RINGS
 .rdot.next{background:var(–yellow);animation:pulse 1.5s infinite}
 
 /* ══════════════════════════════════════
-PROYECCIÓN PAGE
+PROYECCIÓN PAGE — ESCENARIOS
 ══════════════════════════════════════ */
-.proj-hero{margin:14px 16px 12px;background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(–r);padding:20px 22px;box-shadow:var(–sh2)}
-.ph-lbl{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
-.ph-val{font-size:46px;font-weight:900;color:#fff;letter-spacing:-.04em;line-height:1}
-.ph-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
-.ph-mult{font-size:18px;font-weight:900;color:var(–green);margin-top:8px}
-.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-bottom:14px}
-.pbox{background:var(–card);border-radius:var(–r2);padding:14px;border:1px solid var(–border);box-shadow:var(–sh)}
-.pbox-lbl{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(–txt3);margin-bottom:5px}
-.pbox-val{font-size:18px;font-weight:900;font-family:‘JetBrains Mono’,monospace}
-.prows{padding:0 16px;margin-bottom:14px}
-.prow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.pr-sym{font-size:10px;font-weight:700;color:var(–txt3);width:36px}
-.pr-track{flex:1;height:14px;background:var(–bg3);border-radius:7px;overflow:hidden}
-.pr-bar{height:100%;border-radius:7px;display:flex;align-items:center;padding-left:7px}
-.pr-barv{font-size:8px;font-weight:700;color:#fff;white-space:nowrap}
-.pr-gain{font-size:9px;font-weight:700;color:var(–green);width:56px;text-align:right;font-family:‘JetBrains Mono’,monospace}
-.sccards{padding:0 16px;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.sccard{border-radius:var(–r2);padding:14px 16px;border:1.5px solid;display:flex;justify-content:space-between;align-items:center}
-.sccard.g{background:var(–gbg);border-color:var(–gbdr)}
-.sccard.y{background:var(–ybg);border-color:var(–ybdr)}
-.sccard.r{background:var(–rbg);border-color:var(–rbdr)}
-.sc-lbl{font-size:11px;font-weight:700;color:var(–txt)}
-.sc-sub{font-size:9px;color:var(–txt3);margin-top:2px}
-.sc-val{font-size:20px;font-weight:900;font-family:‘JetBrains Mono’,monospace}
-.sccard.g .sc-val{color:var(–green)}.sccard.y .sc-val{color:var(–yellow)}.sccard.r .sc-val{color:var(–red)}
+.sc-tab{flex:1;padding:9px 4px;border-radius:12px;font-size:10px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(–txt3);font-family:‘Outfit’,sans-serif;transition:all .2s}
+.sc-tab.active{background:var(–txt);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+/* Hero escenario */
+.sc-hero{border-radius:var(–r);padding:20px 22px;margin-bottom:14px;box-shadow:var(–sh2)}
+.sch-eyebrow{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
+.sch-title{font-size:28px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.1;margin-bottom:4px}
+.sch-btc{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:8px;font-family:‘JetBrains Mono’,monospace}
+.sch-context{font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;margin-bottom:16px;padding:10px 12px;background:rgba(255,255,255,.07);border-radius:10px}
+.sch-stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.sch-stat{background:rgba(255,255,255,.08);border-radius:10px;padding:10px 8px;text-align:center}
+.sch-stat-lbl{font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px}
+.sch-stat-val{font-size:14px;font-weight:900;color:#fff;font-family:‘JetBrains Mono’,monospace;letter-spacing:-.02em}
+/* Token rows */
+.sc-row{background:var(–card);border-radius:var(–r2);padding:12px 14px;border:1px solid var(–border);box-shadow:var(–sh);display:flex;align-items:center;gap:12px}
+.sc-row-sym{font-size:14px;font-weight:900;color:var(–txt);width:44px}
+.sc-row-body{flex:1}
+.sc-row-bar-wrap{height:6px;background:var(–bg3);border-radius:3px;overflow:hidden;margin:4px 0}
+.sc-row-bar{height:100%;border-radius:3px;transition:width .8s}
+.sc-row-labels{display:flex;justify-content:space-between;font-size:8px;color:var(–txt3);font-family:‘JetBrains Mono’,monospace}
+.sc-row-right{text-align:right;flex-shrink:0}
+.sc-row-val{font-size:15px;font-weight:900;font-family:‘JetBrains Mono’,monospace}
+.sc-row-mult{font-size:9px;font-weight:700;margin-top:2px}
+/* Comparativa */
+.cmp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cmp-lbl{font-size:10px;font-weight:700;width:70px;color:var(–txt)}
+.cmp-track{flex:1;height:10px;background:var(–bg3);border-radius:5px;overflow:hidden}
+.cmp-bar{height:100%;border-radius:5px;transition:width .8s}
+.cmp-val{font-size:11px;font-weight:900;width:60px;text-align:right;font-family:‘JetBrains Mono’,monospace}
 .apyrows{padding:0 16px;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
 .apyrow{background:var(–card);border-radius:var(–r2);padding:12px 14px;border:1px solid var(–border);display:flex;justify-content:space-between;align-items:center;box-shadow:var(–sh)}
 
@@ -421,28 +424,58 @@ SEÑALES PAGE
 <!-- ═══ PROYECCIÓN ═══ -->
 
 <div class="view" id="view-proj">
-  <div class="proj-hero">
-    <div class="ph-lbl">Total cobrado — 4 TPs (20/30/30/20%)</div>
-    <div class="ph-val" id="PHERO">$—</div>
-    <div class="ph-sub">sobre $8,164 invertidos</div>
-    <div class="ph-mult" id="PHMULT">— × multiplicador</div>
+
+  <!-- SELECTOR DE ESCENARIO -->
+
+  <div style="padding:14px 16px 0">
+    <div style="background:var(--card);border-radius:var(--r);padding:4px;box-shadow:var(--sh);border:1px solid var(--border);display:flex;gap:3px;margin-bottom:14px">
+      <button class="sc-tab active" id="sct-bear" onclick="setScenario('bear')">🔴 Bajista</button>
+      <button class="sc-tab" id="sct-mid" onclick="setScenario('mid')">🟡 Medio</button>
+      <button class="sc-tab" id="sct-bull" onclick="setScenario('bull')">🟢 Alcista</button>
+      <button class="sc-tab" id="sct-plan" onclick="setScenario('plan')">🎯 Tu Plan</button>
+    </div>
+
+```
+<!-- HERO del escenario -->
+<div class="sc-hero" id="SC-HERO">
+  <div class="sch-eyebrow" id="SCH-EYE">—</div>
+  <div class="sch-title" id="SCH-TITLE">—</div>
+  <div class="sch-btc" id="SCH-BTC">BTC —</div>
+  <div class="sch-context" id="SCH-CTX">—</div>
+  <div class="sch-stats">
+    <div class="sch-stat">
+      <div class="sch-stat-lbl">Tu cartera</div>
+      <div class="sch-stat-val" id="SCH-TOT">$—</div>
+    </div>
+    <div class="sch-stat">
+      <div class="sch-stat-lbl">Multiplicador</div>
+      <div class="sch-stat-val" id="SCH-MULT">—x</div>
+    </div>
+    <div class="sch-stat">
+      <div class="sch-stat-lbl">Ganancia</div>
+      <div class="sch-stat-val" id="SCH-GAIN">$—</div>
+    </div>
+    <div class="sch-stat">
+      <div class="sch-stat-lbl">Probabilidad</div>
+      <div class="sch-stat-val" id="SCH-PROB">—</div>
+    </div>
   </div>
-  <div class="proj-grid">
-    <div class="pbox"><div class="pbox-lbl">Ganancia neta</div><div class="pbox-val" style="color:var(--green)" id="PGAN">$—</div></div>
-    <div class="pbox"><div class="pbox-lbl">Inversión</div><div class="pbox-val">$8,164</div></div>
-    <div class="pbox"><div class="pbox-lbl">Valor hoy</div><div class="pbox-val" id="PVHOY">$—</div></div>
-    <div class="pbox"><div class="pbox-lbl">P&L actual</div><div class="pbox-val" id="PPNL">—</div></div>
+</div>
+
+<!-- TOKEN BREAKDOWN del escenario -->
+<div style="font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--txt3);text-transform:uppercase;margin-bottom:10px">RESULTADO POR TOKEN</div>
+<div id="SC-ROWS" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+
+<!-- COMPARATIVA de escenarios -->
+<div style="font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--txt3);text-transform:uppercase;margin-bottom:10px">COMPARATIVA DE ESCENARIOS</div>
+<div style="background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:14px" id="SC-COMPARE"></div>
+
+<!-- APY -->
+<div style="font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--txt3);text-transform:uppercase;margin-bottom:10px">APY ACUMULADO ANUAL</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px" id="APYROWS"></div>
+```
+
   </div>
-  <div class="slbl">GANANCIA POR TOKEN</div>
-  <div class="prows" id="PROWS"></div>
-  <div class="slbl">ESCENARIOS REALISTAS</div>
-  <div class="sccards">
-    <div class="sccard g"><div><div class="sc-lbl">🟢 Optimista — Todos a TP4</div><div class="sc-sub">20% probabilidad</div></div><div class="sc-val" id="SCOPT">$—</div></div>
-    <div class="sccard y"><div><div class="sc-lbl">🟡 Base — 7/10 a TP3</div><div class="sc-sub">50% probabilidad · ~x2.3</div></div><div class="sc-val">~$19K</div></div>
-    <div class="sccard r"><div><div class="sc-lbl">🔴 Conservador — 5/10 a TP3</div><div class="sc-sub">30% probabilidad · ~x1.6</div></div><div class="sc-val">~$13K</div></div>
-  </div>
-  <div class="slbl">APY ACUMULADO ANUAL</div>
-  <div class="apyrows" id="APYROWS"></div>
 </div>
 
 <!-- ═══ SEÑALES ═══ -->
@@ -988,34 +1021,142 @@ function showRingDetail(idx){
 }
 
 // ══════════════════════════════════════
-// PROYECCIÓN
+// PROYECCIÓN — Motor de escenarios
 // ══════════════════════════════════════
-function renderProj(tot){
-  var totalG=0,totalC=0;
-  PF.forEach(function(t){var r=tpAll(t);totalG+=r.g;totalC+=r.c;});
-  var pnl=tot-CB;
-  document.getElementById('PHERO').textContent='$'+Math.round(totalC).toLocaleString('es-ES');
-  document.getElementById('PHMULT').textContent=(totalC/CB).toFixed(1)+'× multiplicador';
-  document.getElementById('PGAN').textContent='+$'+Math.round(totalG).toLocaleString('es-ES');
-  document.getElementById('PVHOY').textContent='$'+Math.round(tot).toLocaleString('es-ES');
-  var pp=document.getElementById('PPNL');
-  pp.textContent=(pnl>=0?'+':'')+Math.round(pnl).toLocaleString('es-ES');
-  pp.style.color=pnl>=0?'var(--green)':'var(--red)';
-  document.getElementById('SCOPT').textContent='$'+Math.round(totalC).toLocaleString('es-ES');
 
-  var gains=PF.map(function(t,i){var r=tpAll(t);return{sym:t.sym,g:r.g,c:r.c,i:i};}).sort(function(a,b){return b.g-a.g;});
-  var mx=Math.max.apply(null,gains.map(function(g){return g.g;}));
-  document.getElementById('PROWS').innerHTML=gains.map(function(g){
-    var w=Math.max(12,(g.g/mx*100)).toFixed(0);
-    return '<div class="prow"><div class="pr-sym">'+g.sym+'</div><div class="pr-track"><div class="pr-bar" style="width:'+w+'%;background:'+WFC[g.i]+'"><span class="pr-barv">+$'+Math.round(g.g).toLocaleString('es-ES')+'</span></div></div><div class="pr-gain">$'+Math.round(g.c).toLocaleString('es-ES')+'</div></div>';
+// Precios proyectados por escenario (acordados y basados en análisis real)
+// BTC hoy ~$77k. ATH oct 2025: $126k
+var SC_PRICES={
+  bear:{SOL:155,LINK:20,XRP:3.2,BTC:120000,ETH:3800,HBAR:0.19,AAVE:290,NEAR:5,GRT:0.12,DOT:3.5},
+  mid: {SOL:230,LINK:32,XRP:4.5,BTC:150000,ETH:5200,HBAR:0.31,AAVE:420,NEAR:9,GRT:0.25,DOT:5.5},
+  bull:{SOL:310,LINK:44,XRP:5.8,BTC:180000,ETH:6500,HBAR:0.44,AAVE:560,NEAR:14,GRT:0.40,DOT:7.5},
+  plan:{} // usa TPs reales
+};
+
+var currentScenario='bear';
+
+function setScenario(sc){
+  currentScenario=sc;
+  ['bear','mid','bull','plan'].forEach(function(s){
+    var el=document.getElementById('sct-'+s);
+    if(el)el.className='sc-tab'+(s===sc?' active':'');
+  });
+  renderScenario();
+}
+
+function calcScenario(sc){
+  var tot=0,gain=0;
+  if(sc==='plan'){
+    // Tu plan: suma de todos los TPs reales
+    PF.forEach(function(t){var r=tpAll(t);tot+=r.c;gain+=r.g;});
+    return{tot:tot,gain:gain,tokens:PF.map(function(t){
+      var r=tpAll(t);
+      return{sym:t.sym,cobro:r.c,gain:r.g,price:'TPs acordados',mult:(r.c/t.cost)};
+    })};
+  }
+  var prices=SC_PRICES[sc];
+  var tokens=PF.map(function(t){
+    var scP=prices[t.sym]||t.p;
+    // Cuántos TPs se ejecutan a este precio
+    var cobro=0,gn=0;
+    for(var i=0;i<4;i++){
+      if(scP>=t.tp[i]){
+        cobro+=t.tp[i]*t.u*PCTS[i];
+        gn+=t.tp[i]*t.u*PCTS[i]-t.cost*PCTS[i];
+      }
+    }
+    // Si el precio del escenario no llega a ningún TP, calculamos valor a mercado
+    if(cobro===0){cobro=scP*t.u;gn=cobro-t.cost;}
+    tot+=cobro;gain+=gn;
+    return{sym:t.sym,cobro:cobro,gain:gn,price:scP,mult:cobro/t.cost};
+  });
+  return{tot:tot,gain:gain,tokens:tokens};
+}
+
+function renderScenario(){
+  var sc=currentScenario;
+  var SCDEFS={
+    bear:{name:'BAJISTA',emoji:'🔴',btcLbl:'BTC $120k',bg:'linear-gradient(135deg,#7F1D1D,#B91C1C)',prob:'15%',
+      ctx:'BTC recupera su ATH anterior ($126k) pero sin extensión. Mercado lateral. La mayoría de tus TP1 se ejecutan. Sin altseason significativa.'},
+    mid:{name:'MEDIO',emoji:'🟡',btcLbl:'BTC $150k',bg:'linear-gradient(135deg,#78350F,#B45309)',prob:'40%',
+      ctx:'Bull run moderado impulsado por ETFs y CLARITY Act. Bernstein y Standard Chartered target. Tus TP1 y TP2 se ejecutan mayoritariamente.'},
+    bull:{name:'ALCISTA',emoji:'🟢',btcLbl:'BTC $180k',bg:'linear-gradient(135deg,#14532D,#15803D)',prob:'35%',
+      ctx:'Bull run institucional pleno. JP Morgan territory. ETFs + regulación + liquidez global. Tus TP2-TP3 se ejecutan. Altseason real.'},
+    plan:{name:'TU PLAN',emoji:'🎯',btcLbl:'TPs acordados',bg:'linear-gradient(135deg,#1E1B4B,#3730A3)',prob:'—',
+      ctx:'Ejecutas el plan al 100%: 20% en TP1, 30% en TP2, 30% en TP3, 20% en TP4. Resultado si todo va según lo calculado.'}
+  };
+  var def=SCDEFS[sc];
+  var res=calcScenario(sc);
+
+  // Hero
+  var hero=document.getElementById('SC-HERO');
+  if(hero)hero.style.background=def.bg;
+  var setEl=function(id,txt){var e=document.getElementById(id);if(e)e.textContent=txt;};
+  setEl('SCH-EYE',def.emoji+' ESCENARIO '+def.name);
+  setEl('SCH-TITLE','$'+Math.round(res.tot).toLocaleString('es-ES'));
+  setEl('SCH-BTC',def.btcLbl);
+  setEl('SCH-CTX',def.ctx);
+  setEl('SCH-TOT','$'+Math.round(res.tot).toLocaleString('es-ES'));
+  setEl('SCH-MULT',(res.tot/CB).toFixed(1)+'x');
+  setEl('SCH-GAIN','+$'+Math.round(res.gain).toLocaleString('es-ES'));
+  setEl('SCH-PROB',def.prob);
+
+  // Rows por token
+  var sorted=res.tokens.slice().sort(function(a,b){return b.gain-a.gain;});
+  var maxG=Math.max.apply(null,sorted.map(function(x){return Math.max(0,x.gain);}));
+  var rowsHtml=sorted.map(function(r,i){
+    var col=r.gain>=0?'var(--green)':'var(--red)';
+    var barW=maxG>0?Math.max(4,(r.gain/maxG*100)).toFixed(0):4;
+    var barCol=r.gain>0?'var(--green)':'var(--red)';
+    var t=null;PF.forEach(function(p){if(p.sym===r.sym)t=p;});
+    var pnlPct=t?((r.cobro-t.cost)/t.cost*100).toFixed(0):0;
+    return '<div class="sc-row">'
+      +'<div class="sc-row-sym">'+r.sym+'</div>'
+      +'<div class="sc-row-body">'
+      +'<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--txt3);margin-bottom:3px">'
+      +'<span>Cobro</span><span style="font-family:\'JetBrains Mono\',monospace;font-weight:700;color:var(--txt)">$'+Math.round(r.cobro).toLocaleString('es-ES')+'</span>'
+      +'</div>'
+      +'<div class="sc-row-bar-wrap"><div class="sc-row-bar" style="width:'+barW+'%;background:'+barCol+'"></div></div>'
+      +'<div class="sc-row-labels"><span>Invertido: $'+(t?Math.round(t.cost):'—')+'</span><span style="color:'+col+';font-weight:700">'+(r.gain>=0?'+':'')+Math.round(r.gain).toLocaleString('es-ES')+'</span></div>'
+      +'</div>'
+      +'<div class="sc-row-right">'
+      +'<div class="sc-row-val" style="color:'+col+'">'+(r.gain>=0?'+':'')+Math.round(r.gain).toLocaleString('es-ES')+'</div>'
+      +'<div class="sc-row-mult" style="color:'+col+'">'+pnlPct+'%</div>'
+      +'</div></div>';
   }).join('');
+  document.getElementById('SC-ROWS').innerHTML=rowsHtml;
 
+  // Comparativa todos los escenarios
+  var allSc=['bear','mid','bull','plan'];
+  var allRes=allSc.map(function(s){return{s:s,r:calcScenario(s)};});
+  var maxTot=Math.max.apply(null,allRes.map(function(x){return x.r.tot;}));
+  var scNames={bear:'🔴 Bajista $120k',mid:'🟡 Medio $150k',bull:'🟢 Alcista $180k',plan:'🎯 Tu Plan'};
+  var scCols={bear:'#FF3B30',mid:'#FF9500',bull:'#00C566',plan:'#5856D6'};
+  var cmpHtml='<div style="margin-bottom:10px;font-size:10px;font-weight:700;color:var(--txt3)">Resultado total por escenario</div>';
+  allRes.forEach(function(x){
+    var w=Math.max(8,(x.r.tot/maxTot*100)).toFixed(0);
+    var mult=(x.r.tot/CB).toFixed(1);
+    var isActive=x.s===sc;
+    cmpHtml+='<div class="cmp-row" style="'+(isActive?'opacity:1':'opacity:.6')+'">'
+      +'<div class="cmp-lbl">'+scNames[x.s]+'</div>'
+      +'<div class="cmp-track"><div class="cmp-bar" style="width:'+w+'%;background:'+scCols[x.s]+'"></div></div>'
+      +'<div class="cmp-val" style="color:'+scCols[x.s]+'">$'+Math.round(x.r.tot/1000).toFixed(0)+'K · '+mult+'x</div>'
+      +'</div>';
+  });
+  document.getElementById('SC-COMPARE').innerHTML=cmpHtml;
+
+  // APY
   var apyHtml='';
   PF.filter(function(t){return t.apy>0;}).forEach(function(t){
     var tk=t.u*(t.apy/100),vk=tk*t.p;
     apyHtml+='<div class="apyrow"><div><div style="font-size:13px;font-weight:900;color:var(--txt)">'+t.sym+'</div><div style="font-size:9px;color:var(--txt3);margin-top:2px;font-family:\'JetBrains Mono\',monospace">+'+tk.toFixed(2)+' '+t.sym+' / año</div></div><div style="text-align:right"><div style="font-size:15px;font-weight:900;color:var(--green)">'+t.apy+'%</div><div style="font-size:9px;color:var(--txt3);font-family:\'JetBrains Mono\',monospace">~$'+Math.round(vk)+'/año</div></div></div>';
   });
   document.getElementById('APYROWS').innerHTML=apyHtml;
+}
+
+function renderProj(tot){
+  // Just trigger scenario render - keeps data fresh
+  renderScenario();
 }
 
 // ══════════════════════════════════════
