@@ -1024,13 +1024,13 @@ function showRingDetail(idx){
 // PROYECCIÓN — Motor de escenarios
 // ══════════════════════════════════════
 
-// Precios proyectados por escenario (acordados y basados en análisis real)
+// Precios proyectados por escenario con betas revisadas
 // BTC hoy ~$77k. ATH oct 2025: $126k
+// Bajista = BTC $120k (+56%) / Medio = BTC $150k (+95%) / Alcista = BTC $180k (+134%)
 var SC_PRICES={
-  bear:{SOL:155,LINK:20,XRP:3.2,BTC:120000,ETH:3800,HBAR:0.19,AAVE:290,NEAR:5,GRT:0.12,DOT:3.5},
-  mid: {SOL:230,LINK:32,XRP:4.5,BTC:150000,ETH:5200,HBAR:0.31,AAVE:420,NEAR:9,GRT:0.25,DOT:5.5},
-  bull:{SOL:310,LINK:44,XRP:5.8,BTC:180000,ETH:6500,HBAR:0.44,AAVE:560,NEAR:14,GRT:0.40,DOT:7.5},
-  plan:{} // usa TPs reales
+  bear:{SOL:195, LINK:28,  XRP:4.5,  BTC:120000, ETH:4500, HBAR:0.26, AAVE:380, NEAR:7,  GRT:0.18, DOT:4.2},
+  mid: {SOL:280, LINK:40,  XRP:6.5,  BTC:150000, ETH:6200, HBAR:0.37, AAVE:530, NEAR:11, GRT:0.30, DOT:6.2},
+  bull:{SOL:360, LINK:52,  XRP:8.5,  BTC:180000, ETH:8000, HBAR:0.50, AAVE:680, NEAR:16, GRT:0.44, DOT:8.0}
 };
 
 var currentScenario='bear';
@@ -1046,29 +1046,34 @@ function setScenario(sc){
 
 function calcScenario(sc){
   var tot=0,gain=0;
+
+  // TU PLAN: ejecutas los 4 TPs exactos al 100% — independiente de BTC
   if(sc==='plan'){
-    // Tu plan: suma de todos los TPs reales
-    PF.forEach(function(t){var r=tpAll(t);tot+=r.c;gain+=r.g;});
-    return{tot:tot,gain:gain,tokens:PF.map(function(t){
+    var tokens=PF.map(function(t){
       var r=tpAll(t);
-      return{sym:t.sym,cobro:r.c,gain:r.g,price:'TPs acordados',mult:(r.c/t.cost)};
-    })};
+      tot+=r.c;gain+=r.g;
+      return{sym:t.sym,cobro:r.c,gain:r.g,price:'TPs acordados',tpsHit:4};
+    });
+    return{tot:tot,gain:gain,tokens:tokens};
   }
+
+  // ESCENARIOS BTC: valor de cartera a los precios proyectados
+  // Se calculan qué TPs se ejecutarían a esos precios de token
   var prices=SC_PRICES[sc];
   var tokens=PF.map(function(t){
     var scP=prices[t.sym]||t.p;
-    // Cuántos TPs se ejecutan a este precio
-    var cobro=0,gn=0;
+    var cobro=0,gn=0,tpsHit=0;
     for(var i=0;i<4;i++){
       if(scP>=t.tp[i]){
         cobro+=t.tp[i]*t.u*PCTS[i];
         gn+=t.tp[i]*t.u*PCTS[i]-t.cost*PCTS[i];
+        tpsHit++;
       }
     }
-    // Si el precio del escenario no llega a ningún TP, calculamos valor a mercado
+    // Si no llega a ningún TP, valor a mercado del escenario
     if(cobro===0){cobro=scP*t.u;gn=cobro-t.cost;}
     tot+=cobro;gain+=gn;
-    return{sym:t.sym,cobro:cobro,gain:gn,price:scP,mult:cobro/t.cost};
+    return{sym:t.sym,cobro:cobro,gain:gn,price:scP,tpsHit:tpsHit};
   });
   return{tot:tot,gain:gain,tokens:tokens};
 }
