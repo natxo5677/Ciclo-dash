@@ -561,7 +561,10 @@ SEÑALES PAGE
   <div class="slbl">RESUMEN P&L REALIZADO</div>
   <div style="padding:0 16px;margin-bottom:14px">
     <div style="background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(--r);padding:20px;box-shadow:var(--sh2)">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">P&L REALIZADO TOTAL</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4)">P&L REALIZADO TOTAL</div>
+        <button onclick="openKrakenSettings()" style="font-size:9px;font-weight:800;padding:5px 12px;background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:20px;cursor:pointer;font-family:'Outfit',sans-serif">⚙️ Kraken API</button>
+      </div>
       <div id="TR-TOTAL" style="font-size:44px;font-weight:900;color:#fff;letter-spacing:-.04em;line-height:1">$0</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px">
         <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center">
@@ -637,6 +640,42 @@ SEÑALES PAGE
 
 <button onclick="saveTrade()" style="width:100%;padding:14px;background:var(--txt);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.02em">✅ Confirmar operación</button>
 
+</div>
+
+<!-- KRAKEN SETTINGS POPUP -->
+
+<div id="KR-OVERLAY" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;backdrop-filter:blur(4px)" onclick="closeKrakenSettings()"></div>
+<div id="KR-POPUP" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-radius:24px 24px 0 0;padding:24px 20px 32px;z-index:600;box-shadow:0 -8px 40px rgba(0,0,0,.2)">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3)">SINCRONIZACIÓN</div>
+      <div style="font-size:22px;font-weight:900;color:var(--txt)">Kraken API</div>
+    </div>
+    <button onclick="closeKrakenSettings()" style="background:var(--bg3);border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer">✕</button>
+  </div>
+
+  <div style="background:var(--bbg);border:1px solid var(--bbdr);border-radius:12px;padding:12px 14px;margin-bottom:18px">
+    <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px">🔒 100% seguro</div>
+    <div style="font-size:11px;color:var(--txt3);line-height:1.5">Las claves se guardan solo en tu dispositivo. Nunca se envían a ningún servidor externo. Permisos de solo lectura.</div>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;color:var(--txt3);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">API Key (pública)</div>
+    <input id="KR-KEY" type="text" placeholder="QtxiR8fz4P5N+..." style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--txt);outline:none">
+  </div>
+  <div style="margin-bottom:18px">
+    <div style="font-size:10px;font-weight:700;color:var(--txt3);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">API Secret (privada)</div>
+    <input id="KR-SECRET" type="password" placeholder="kB2X0et5+kY36Q4..." style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--txt);outline:none">
+  </div>
+
+  <div id="KR-STATUS" style="display:none;padding:10px 14px;border-radius:10px;margin-bottom:14px;font-size:11px;font-weight:600"></div>
+
+  <div style="display:flex;gap:10px">
+    <button onclick="saveKrakenKeys()" style="flex:1;padding:13px;background:var(--txt);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Outfit',sans-serif">💾 Guardar y conectar</button>
+    <button onclick="clearKrakenKeys()" style="padding:13px 16px;background:var(--rbg);color:var(--red);border:1px solid var(--rbdr);border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif">🗑</button>
+  </div>
+
+  <div style="margin-top:14px;font-size:9px;color:var(--txt3);text-align:center">La app sincroniza saldos e historial cada 30 segundos automáticamente</div>
 </div>
 
 <!-- NAV -->
@@ -1540,6 +1579,218 @@ function renderTrades(){
 }
 
 // ══════════════════════════════════════
+// KRAKEN API SYNC
+// ══════════════════════════════════════
+var krakenConnected=false;
+var krakenSyncInterval=null;
+
+function getKrakenKeys(){
+  return{
+    key:localStorage.getItem('kr_key')||'',
+    secret:localStorage.getItem('kr_secret')||''
+  };
+}
+
+function openKrakenSettings(){
+  var k=getKrakenKeys();
+  document.getElementById('KR-KEY').value=k.key;
+  document.getElementById('KR-SECRET').value=k.secret?'••••••••••••••••':'';
+  document.getElementById('KR-STATUS').style.display='none';
+  document.getElementById('KR-OVERLAY').style.display='block';
+  document.getElementById('KR-POPUP').style.display='block';
+}
+
+function closeKrakenSettings(){
+  document.getElementById('KR-OVERLAY').style.display='none';
+  document.getElementById('KR-POPUP').style.display='none';
+}
+
+function saveKrakenKeys(){
+  var key=document.getElementById('KR-KEY').value.trim();
+  var secret=document.getElementById('KR-SECRET').value.trim();
+  if(!key){showKrakenStatus('Introduce la API Key','r');return;}
+  if(secret==='••••••••••••••••'){
+    // Secret no cambió
+    localStorage.setItem('kr_key',key);
+  }else{
+    if(!secret){showKrakenStatus('Introduce el API Secret','r');return;}
+    localStorage.setItem('kr_key',key);
+    localStorage.setItem('kr_secret',secret);
+  }
+  showKrakenStatus('Conectando...','y');
+  krakenSync().then(function(){
+    showKrakenStatus('✅ Conectado correctamente','g');
+    startKrakenSync();
+    setTimeout(closeKrakenSettings,1500);
+  }).catch(function(e){
+    showKrakenStatus('❌ Error: '+e.message,'r');
+  });
+}
+
+function clearKrakenKeys(){
+  localStorage.removeItem('kr_key');
+  localStorage.removeItem('kr_secret');
+  krakenConnected=false;
+  if(krakenSyncInterval)clearInterval(krakenSyncInterval);
+  document.getElementById('KR-KEY').value='';
+  document.getElementById('KR-SECRET').value='';
+  showKrakenStatus('Claves eliminadas','y');
+  showToast('Kraken desconectado','tr2');
+}
+
+function showKrakenStatus(msg,type){
+  var el=document.getElementById('KR-STATUS');
+  if(!el)return;
+  el.style.display='block';
+  el.textContent=msg;
+  el.style.background=type==='g'?'var(--gbg)':type==='r'?'var(--rbg)':'var(--ybg)';
+  el.style.color=type==='g'?'var(--green)':type==='r'?'var(--red)':'var(--yellow)';
+  el.style.border='1px solid '+(type==='g'?'var(--gbdr)':type==='r'?'var(--rbdr)':'var(--ybdr)');
+}
+
+// Firma HMAC-SHA256 usando Web Crypto API
+async function krakenSign(path,nonce,postData,secret){
+  var enc=new TextEncoder();
+  // Decode base64 secret
+  var secretBytes=Uint8Array.from(atob(secret),function(c){return c.charCodeAt(0);});
+  var key=await crypto.subtle.importKey('raw',secretBytes,{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  // SHA256(nonce + postData)
+  var msg=nonce+postData;
+  var sha256=await crypto.subtle.digest('SHA-256',enc.encode(msg));
+  // HMAC-SHA256(path + sha256)
+  var pathBytes=enc.encode(path);
+  var combined=new Uint8Array(pathBytes.length+sha256.byteLength);
+  combined.set(pathBytes);combined.set(new Uint8Array(sha256),pathBytes.length);
+  var sig=await crypto.subtle.sign('HMAC',key,combined);
+  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+}
+
+async function krakenPrivate(endpoint,params){
+  var k=getKrakenKeys();
+  if(!k.key||!k.secret)throw new Error('No hay claves configuradas');
+  var nonce=Date.now().toString();
+  params=params||{};
+  params.nonce=nonce;
+  var postData=Object.keys(params).map(function(k){return k+'='+encodeURIComponent(params[k]);}).join('&');
+  var path='/0/private/'+endpoint;
+  var sig=await krakenSign(path,nonce,postData,k.secret);
+  var resp=await fetch('https://api.kraken.com'+path,{
+    method:'POST',
+    headers:{
+      'API-Key':k.key,
+      'API-Sign':sig,
+      'Content-Type':'application/x-www-form-urlencoded'
+    },
+    body:postData,
+    signal:AbortSignal.timeout(10000)
+  });
+  var data=await resp.json();
+  if(data.error&&data.error.length)throw new Error(data.error[0]);
+  return data.result;
+}
+
+async function krakenSync(){
+  // 1. Sincronizar saldos
+  var balances=await krakenPrivate('Balance');
+  var sym2kraken={SOL:'SOL',LINK:'LINK',XRP:'XXRP',BTC:'XXBT',ETH:'XETH',HBAR:'HBAR',AAVE:'AAVE',NEAR:'NEAR',GRT:'GRT',DOT:'DOT'};
+  var updated=[];
+  PF.forEach(function(t){
+    var kSym=sym2kraken[t.sym];
+    // Buscar en balances (Kraken usa prefijos raros)
+    var val=null;
+    Object.keys(balances).forEach(function(bk){
+      if(bk===kSym||bk===t.sym||bk.indexOf(t.sym)!==-1){
+        val=parseFloat(balances[bk])||0;
+      }
+    });
+    if(val!==null&&val!==t.u&&val>0){
+      updated.push({sym:t.sym,old:t.u,new:val});
+      t.u=val;
+    }
+  });
+
+  // 2. Sincronizar historial de operaciones cerradas
+  var trades=await krakenPrivate('TradesHistory',{trades:true});
+  var tradeList=trades.trades||{};
+  var existing=getTrades().map(function(t){return t.krakenId;}).filter(Boolean);
+  var newTrades=[];
+  Object.keys(tradeList).forEach(function(tid){
+    if(existing.indexOf(tid)!==-1)return;
+    var tr=tradeList[tid];
+    if(tr.type!=='sell')return;
+    // Mapear símbolo
+    var sym=null;
+    PF.forEach(function(p){
+      var kSym=sym2kraken[p.sym];
+      if(tr.pair&&(tr.pair.indexOf(p.sym)!==-1||tr.pair.indexOf(kSym)!==-1))sym=p.sym;
+    });
+    if(!sym)return;
+    var t=null;PF.forEach(function(p){if(p.sym===sym)t=p;});
+    if(!t)return;
+    var qty=parseFloat(tr.vol)||0;
+    var price=parseFloat(tr.price)||0;
+    var cobro=qty*price;
+    var costBase=qty*t.be;
+    var gain=cobro-costBase-(parseFloat(tr.fee)||0);
+    var d=new Date(tr.time*1000);
+    newTrades.push({
+      id:Date.now()+Math.random(),
+      krakenId:tid,
+      sym:sym,tp:'Auto',
+      qty:qty,price:price,cobro:cobro,gain:gain,
+      date:d.toLocaleDateString('es-ES'),
+      time:d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})
+    });
+  });
+
+  if(newTrades.length){
+    var allTrades=getTrades();
+    newTrades.forEach(function(t){allTrades.unshift(t);});
+    saveTrades(allTrades);
+  }
+
+  krakenConnected=true;
+
+  // Notificar si hubo cambios
+  if(updated.length){
+    updated.forEach(function(u){
+      showToast(u.sym+' actualizado: '+u.new.toFixed(4),'tg2');
+    });
+    renderTokens();
+    renderAll();
+  }
+  if(newTrades.length){
+    renderTrades();
+    showToast(newTrades.length+' operación(es) importadas de Kraken','tg2');
+  }
+
+  // Actualizar indicador de conexión
+  updateKrakenBadge(true);
+  return{updated:updated.length,newTrades:newTrades.length};
+}
+
+function updateKrakenBadge(connected){
+  var btn=document.querySelector('button[onclick="openKrakenSettings()"]');
+  if(btn)btn.textContent=connected?'✅ Kraken':'⚙️ Kraken API';
+}
+
+function startKrakenSync(){
+  if(krakenSyncInterval)clearInterval(krakenSyncInterval);
+  krakenSyncInterval=setInterval(function(){
+    krakenSync().catch(function(){updateKrakenBadge(false);});
+  },30000);
+}
+
+function initKraken(){
+  var k=getKrakenKeys();
+  if(k.key&&k.secret){
+    krakenSync()
+      .then(function(){startKrakenSync();})
+      .catch(function(){updateKrakenBadge(false);});
+  }
+}
+
+// ══════════════════════════════════════
 // INIT
 // ══════════════════════════════════════
 function init(){
@@ -1548,6 +1799,7 @@ function init(){
   fetchAll();
   setInterval(fetchAll,15000);
   setInterval(checkAlerts,15000);
+  initKraken();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
